@@ -1,4 +1,5 @@
-# Learn Rust With Entirely Too Many Linked Lists
+<!-- # Learn Rust With Entirely Too Many Linked Lists -->
+# 連結リストまみれでRustを学ぶ
 
 > Got any issues or want to check out all the final code at once?
 > [Everything's on Github!][github]
@@ -11,27 +12,42 @@
 > a secret **hardmode**, where you get extra compiler errors that go completely
 > unmentioned in the text of this book. Wow, sounds like fun!
 
-I fairly frequently get asked how to implement a linked list in Rust. The
+<!-- I fairly frequently get asked how to implement a linked list in Rust. The
 answer honestly depends on what your requirements are, and it's obviously not
 super easy to answer the question on the spot. As such I've decided to write
-this book to comprehensively answer the question once and for all.
+this book to comprehensively answer the question once and for all. -->
 
-In this series I will teach you basic and advanced Rust programming
+Rustで連結リストを実装するにはどうしたらいいか，という質問をよく受けます．正直なところ，答えはお客様のご要望によりますし，その場ですらすらお答えできるものではありません．そこで，そうした疑問をまとめて解決するためにこの本を書くことにしました．
+
+<!-- In this series I will teach you basic and advanced Rust programming
 entirely by having you implement 6 linked lists. In doing so, you should
-learn:
+learn: -->
 
-* The following pointer types: `&`, `&mut`, `Box`, `Rc`, `Arc`, `*const`, `*mut`, `NonNull`(?)
+これから６つの連結リストの実装を通して，Rust でのプログラミングの基礎と応用をまるごとお教えします．あなたが学んでいく内容は以下の通り：
+
+<!-- * The following pointer types: `&`, `&mut`, `Box`, `Rc`, `Arc`, `*const`, `*mut`, `NonNull`(?)
 * Ownership, borrowing, inherited mutability, interior mutability, Copy
 * All The Keywords: struct, enum, fn, pub, impl, use, ...
 * Pattern matching, generics, destructors
 * Testing, installing new toolchains, using `miri`
-* Unsafe Rust: raw pointers, aliasing, stacked borrows, UnsafeCell, variance
+* Unsafe Rust: raw pointers, aliasing, stacked borrows, UnsafeCell, variance -->
 
-Yes, linked lists are so truly awful that you deal with all of these concepts in
-making them real.
+* 次のポインタ型: `&`, `&mut`, `Box`, `Rc`, `Arc`, `*const`, `*mut`, `NonNull`(?)
+* 所有権，借用，遺伝的可変性(inherited mutability), 内部可変性，コピー
+* 次のキーワードすべて: 構造体，列挙型，fn, pub, impl, use,...
+* パターンマッチング，ジェネリクス，デストラクタ
+* テスト，新しいツールチェインのインストール，`miri` の使用
+* アンセーフなRust: 生ポインタ，エイリアス，借用のスタック, UnsafeCell, バリアンス
 
-Everything's in the sidebar (may be collapsed on mobile), but for quick
-reference, here's what we're going to be making:
+<!-- Yes, linked lists are so truly awful that you deal with all of these concepts in
+making them real. -->
+
+そう，連結リストというのは本当にやばいものなので，実装しようとするとこういった概念を全部扱わないといけないのです．
+
+<!-- Everything's in the sidebar (may be collapsed on mobile), but for quick
+reference, here's what we're going to be making: -->
+
+すべてサイドバーにありますが（モバイルなら折りたたまれているかもしれませんけど）ご参考までに簡単にこれから作るものを紹介します．
 
 1. [A Bad Singly-Linked Stack](first.md)
 2. [An Ok Singly-Linked Stack](second.md)
@@ -41,45 +57,56 @@ reference, here's what we're going to be making:
 6. [TODO: An Ok Unsafe Doubly-Linked Deque](sixth.md)
 7. [Bonus: A Bunch of Silly Lists](infinity.md)
 
-Just so we're all the same page, I'll be writing out all the commands that I
+<!-- Just so we're all the same page, I'll be writing out all the commands that I
 feed into my terminal. I'll also be using Rust's standard package manager, Cargo,
 to develop the project. Cargo isn't necessary to write a Rust program, but it's
 *so much* better than using rustc directly. If you just want to futz around you
-can also run some simple programs in the browser via [play.rust-lang.org][play].
+can also run some simple programs in the browser via [play.rust-lang.org][play]. -->
 
-In later sections, we'll be using "rustup" to install extra Rust tooling.
-I strongly recommend [installing all of your Rust toolchains using rustup](https://www.rust-lang.org/tools/install).
+同じ結果を得られるように，私はこれからターミナルで打つコマンドはすべて書き出すつもりです．また開発には Rust の標準パッケージマネージャである Cargo を使うことにします．Cargo を使わなくても Rust プログラムは書けますが，rustc を直接使うよりもずっといいです．ただいじくり回したいだけなら，[Rust プレイグラウンド](https://play.rust-lang.org/)を使ってブラウザ上で実行することもできます．
 
-Let's get started and make our project:
+<!-- In later sections, we'll be using "rustup" to install extra Rust tooling.
+I strongly recommend [installing all of your Rust toolchains using rustup](https://www.rust-lang.org/tools/install). -->
 
-```text
+この後の章では，`rustup` を使って追加の Rust ツールをインストールしていきます．Rust のツールチェインは[すべてrustup を用いてインストールする](https://www.rust-lang.org/tools/install)ことを強くお勧めします．
+
+<!-- Let's get started and make our project: -->
+
+さっそくプロジェクトを作っていきましょう:
+
+```sh
 > cargo new --lib lists
 > cd lists
 ```
 
-We'll put each list in a separate file so that we don't lose any of our work.
+<!-- We'll put each list in a separate file so that we don't lose any of our work. -->
 
-It should be noted that the *authentic* Rust learning experience involves
+各リストを別ファイルにまとめ，作業内容が失われないようにします．
+
+<!-- It should be noted that the *authentic* Rust learning experience involves
 writing code, having the compiler scream at you, and trying to figure out
 what the heck that means. I will be carefully ensuring that this occurs as
 frequently as possible. Learning to read and understand Rust's generally
 excellent compiler errors and documentation is *incredibly* important to
-being a productive Rust programmer.
+being a productive Rust programmer. -->
 
-Although actually that's a lie. In writing this I encountered *way* more
+次のことは言っておかねばならないでしょう: Rust を**本当に**学ぶつもりなら，コードを書き，コンパイラに怒られ，それが何を意味するかを理解するということは避けて通れません．皆さんにお見せするために，ふんだんにエラーを出すようにするつもりです．つよい Rust プログラマになるためには，Rust の優れたコンパイラエラーやドキュメントを読み，理解できるようになることが**とても**重要なのです．
+
+<!-- Although actually that's a lie. In writing this I encountered *way* more
 compiler errors than I show. In particular, in the later chapters I won't be
 showing a lot of the random "I typed (copy-pasted) bad" errors that you
 expect to encounter in every language. This is a *guided tour* of having the
-compiler scream at us.
+compiler scream at us. -->
 
-We're going to be going pretty slow, and I'm honestly not going to be very
+ごめんなさい嘘をつきました．私が実際に遭遇したコンパイルエラーの数はこんなものではなく，ここでお見せするのは氷山の一角です．どの言語でも遭遇するようなコピー&ペーストのエラーなどは紹介していません．これはコンパイラに怒られるためのツアーなのです．
+
+<!-- We're going to be going pretty slow, and I'm honestly not going to be very
 serious pretty much the entire time. I think programming should be fun, dang it!
 If you're the type of person who wants maximally information-dense, serious, and
 formal content, this book is not for you. Nothing I will ever make is for you.
-You are wrong.
+You are wrong. -->
 
-
-
+かなりスローペースで進めていくので，正直に言ってまじめな目的にはそぐわないでしょう．プログラミングは楽しくなきゃダメだと思うんです，いやほんとに．もしあなたがきまじめなタイプなら，情報がぱんぱんに詰まったお堅くてきっちりしたものを書いてほしいと思われるかもしれませんが，そんな人のために書いているわけではないんです．あなたは間違ってる．
 
 # An Obligatory Public Service Announcement
 
