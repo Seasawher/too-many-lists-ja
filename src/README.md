@@ -1,16 +1,26 @@
 <!-- # Learn Rust With Entirely Too Many Linked Lists -->
 # 連結リストまみれでRustを学ぶ
 
-> Got any issues or want to check out all the final code at once?
-> [Everything's on Github!][github]
+<!-- > Got any issues or want to check out all the final code at once?
+> [Everything's on Github!][github] -->
 
-> **NOTE**: The current edition of this book is written against Rust 2018,
+> 何か問題を見つけましたか？または，最終的なコードを一気にチェックしたいですか？すべて[GitHub][github]にあります！
+
+> `訳注`: 日本語版のリポジトリは[こちら](https://github.com/Seasawher/too-many-lists-ja)です
+
+<!-- > **NOTE**: The current edition of this book is written against Rust 2018,
 > which was first released with rustc 1.31 (Dec 8, 2018). If your rust toolchain
 > is new enough, the Cargo.toml file that `cargo new` creates should contain the
 > line `edition = "2018"` (or if you're reading this in the far future, perhaps
 > some even larger number!). Using an older toolchain is possible, but unlocks
 > a secret **hardmode**, where you get extra compiler errors that go completely
-> unmentioned in the text of this book. Wow, sounds like fun!
+> unmentioned in the text of this book. Wow, sounds like fun! -->
+
+> **注意**: 本書の現行版は，rustc 1.31 (2018年12月8日) に初めてリリースされた Rust 2018 に基づいて書かれています．
+> あなたの Rust ツールチェインが十分に新しい場合，`cargo new` が生成する `Cargo.toml` ファイルには `edition = "2018"` 
+> (あるいは，あなたが遠い未来に読んでいるなら，もっと大きな数字！) という行が含まれているはずです．
+> 古いツールチェインを利用することも可能ですが，それをすると秘密のハードモードが解除され，
+> 本書の本文ではまったく触れられないコンパイルエラーが発生します．ウワー，楽しそう！
 
 <!-- I fairly frequently get asked how to implement a linked list in Rust. The
 answer honestly depends on what your requirements are, and it's obviously not

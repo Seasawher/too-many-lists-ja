@@ -1,6 +1,6 @@
 # Summary
 
-* [Introduction](README.md)
+* [イントロダクション](README.md)
 * [A Bad Stack](first.md)
     * [Layout](first-layout.md)
     * [New](first-new.md)
