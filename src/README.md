@@ -110,45 +110,60 @@ You are wrong. -->
 
 # An Obligatory Public Service Announcement
 
-Just so we're totally 100% clear: I hate linked lists. With
+<!-- Just so we're totally 100% clear: I hate linked lists. With
 a passion. Linked lists are terrible data structures. Now of course there's
-several great use cases for a linked list:
+several great use cases for a linked list: -->
 
-* You want to do *a lot* of splitting or merging of big lists. *A lot*.
+はっきり言っておきますが，私は連結リストが大嫌いです．吐き気を催すほど．連結リストはひどいデータ構造です．もちろん連結リストには以下のようなときには良い選択です:
+
+<!-- * You want to do *a lot* of splitting or merging of big lists. *A lot*.
 * You're doing some awesome lock-free concurrent thing.
 * You're writing a kernel/embedded thing and want to use an intrusive list.
 * You're using a pure functional language and the limited semantics and absence
   of mutation makes linked lists easier to work with.
-* ... and more!
+* ... and more! -->
 
-But all of these cases are *super rare* for anyone writing a Rust program. 99%
+* 大きなリストの分割や結合をたくさん，たくさん，たくさん！行いたいとき
+* すごい lock-free なものを同時に進行させたいとき
+* カーネルまたは埋め込みの開発を行っていて，intrusive list を使いたいとき
+* 純粋な関数型言語を使っているとき．セマンティクスが限定されているしデータが不変なので，連結リストの扱いが簡単
+
+<!-- But all of these cases are *super rare* for anyone writing a Rust program. 99%
 of the time you should just use a Vec (array stack), and 99% of the other 1%
 of the time you should be using a VecDeque (array deque). These are blatantly
 superior data structures for most workloads due to less frequent allocation,
-lower memory overhead, true random access, and cache locality.
+lower memory overhead, true random access, and cache locality. -->
 
-Linked lists are as *niche* and *vague* of a data structure as a trie. Few would
+しかし Rust プログラマにとってはこういったことはすべて超レアなケースです．99% のケースでは `Vec` (可変長配列，スタック) を使えば済みますし，残りの 1% のケースも `VecDeque` (両端キュー) で十分です．`Vec` や `VecDeque` は割り当ての頻度が少なく，メモリのオーバーヘッドも小さく，真のランダムアクセスとキャッシュの局所性を備えており，ほとんどの場合に適切なデータ構造です．
+
+<!-- Linked lists are as *niche* and *vague* of a data structure as a trie. Few would
 balk at me claiming a trie is a niche structure that your average programmer
 could happily never learn in an entire productive career -- and yet linked lists
 have some bizarre celebrity status. We teach every undergrad how to write a
 linked list. It's the only niche collection
 [I couldn't kill from std::collections][rust-std-list]. It's
-[*the* list in C++][cpp-std-list]!
+[*the* list in C++][cpp-std-list]! -->
 
-We should all as a community say *no* to linked lists as a "standard" data
+連結リストはトライ木と同じくらいニッチで，頼りないデータ構造です．トライ木はめったに使用されない構造で，平均的なプログラマが開発の中で使うことはないだろうと主張しても反論はほとんどないと思います．しかし連結リストは奇妙にも名前がよく知られています．学部生の全員が連結リストの書き方を教わりますものね．`std::collections` の中で私が唯一殺すことができなかったニッチなコレクションなんです．C++ のリストなんですよ！
+
+<!-- We should all as a community say *no* to linked lists as a "standard" data
 structure. It's a fine data structure with several great use cases, but those
-use cases are *exceptional*, not common.
+use cases are *exceptional*, not common. -->
 
-Several people apparently read the first paragraph of this PSA and then stop
+私たちはコミュニティとして，連結リストを「標準的な」データ構造として認めるべきではないと思います．連結リストはいくつかの場合には素晴らしいデータ構造ですが，それは例外的なケースあって，一般的に有用というわけではありません．
+
+<!-- Several people apparently read the first paragraph of this PSA and then stop
 reading. Like, literally they'll try to rebut my argument by listing one of the
 things in my list of *great use cases*. The thing right after the first
-paragraph!
+paragraph! -->
 
-Just so I can link directly to a detailed argument, here are several attempts
+この節の最初の段落を読んだだけで，この本を読むのをやめてしまうひとがいます．例えば，私が2段落目で示した連結リストの素晴らしい使用例の一つを挙げて，反論してこようとするのです．
+
+<!-- Just so I can link directly to a detailed argument, here are several attempts
 at counter-arguments I have seen, and my response to them. Feel free to skip
-to [the first chapter](first.md) if you just want to learn some Rust!
+to [the first chapter](first.md) if you just want to learn some Rust! -->
 
-
+私に対するいくつかの反論と，それに対する私からの再反論の詳細を以下に示しておきますが，Rust を学びたい方は[第1章](first.md)まで読み飛ばしてください．
 
 
 ## Performance doesn't always matter
