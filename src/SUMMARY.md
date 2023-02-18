@@ -1,7 +1,7 @@
 # Summary
 
 * [イントロダクション](README.md)
-* [A Bad Stack](first.md)
+* [だめな実装](first.md)
     * [Layout](first-layout.md)
     * [New](first-new.md)
     * [Ownership 101](first-ownership.md)
