@@ -33,8 +33,8 @@ learn: -->
 * Unsafe Rust: raw pointers, aliasing, stacked borrows, UnsafeCell, variance -->
 
 * 次のポインタ型: `&`, `&mut`, `Box`, `Rc`, `Arc`, `*const`, `*mut`, `NonNull`(?)
-* 所有権，借用，遺伝的可変性(inherited mutability), 内部可変性，コピー
-* 次のキーワードすべて: 構造体，列挙型，fn, pub, impl, use,...
+* 所有権，借用，継承可変性, 内部可変性，コピー
+* 次のキーワードすべて: 構造体，列挙型，`fn`, `pub`, `impl`, `use`,...
 * パターンマッチング，ジェネリクス，デストラクタ
 * テスト，新しいツールチェインのインストール，`miri` の使用
 * アンセーフなRust: 生ポインタ，エイリアス，借用のスタック, UnsafeCell, バリアンス
@@ -108,7 +108,7 @@ You are wrong. -->
 
 かなりスローペースで進めていくので，正直に言ってまじめな目的にはそぐわないでしょう．プログラミングは楽しくなきゃダメだと思うんです，いやほんとに．もしあなたがきまじめなタイプなら，情報がぱんぱんに詰まったお堅くてきっちりしたものを書いてほしいと思われるかもしれませんが，そんな人のために書いているわけではないんです．あなたは間違ってる．
 
-# An Obligatory Public Service Announcement
+# 注意事項
 
 <!-- Just so we're totally 100% clear: I hate linked lists. With
 a passion. Linked lists are terrible data structures. Now of course there's
@@ -124,9 +124,9 @@ several great use cases for a linked list: -->
 * ... and more! -->
 
 * 大きなリストの分割や結合をたくさん，たくさん，たくさん！行いたいとき
-* すごい lock-free なものを同時に進行させたいとき
+* 同時並行で複数スレッドがロックせずに進行するようなものを書いているとき
 * カーネルまたは埋め込みの開発を行っていて，intrusive list を使いたいとき
-* 純粋な関数型言語を使っているとき．セマンティクスが限定されているしデータが不変なので，連結リストの扱いが簡単
+* 純粋な関数型言語を使っているとき．この場合はセマンティクスが限定されているしデータが不変なので，連結リストの扱いが簡単
 
 <!-- But all of these cases are *super rare* for anyone writing a Rust program. 99%
 of the time you should just use a Vec (array stack), and 99% of the other 1%
