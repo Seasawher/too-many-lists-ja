@@ -1,37 +1,52 @@
 # Basic Data Layout
 
-Alright, so what's a linked list? Well basically, it's a bunch of pieces of data
+<!-- Alright, so what's a linked list? Well basically, it's a bunch of pieces of data
 on the heap (hush, kernel people!) that point to each other in sequence. Linked
 lists are something procedural programmers shouldn't touch with a 10-foot pole,
 and what functional programmers use for everything. It seems fair, then, that we
 should ask functional programmers for the definition of a linked list. They will
-probably give you something like the following definition:
+probably give you something like the following definition: -->
+
+さて，連結リストとは何でしょうか．基本的にはヒープ (カーネルのひとたち，静かに！) 上にある，
+順番にお互いを指すデータの断片の束のことです．連結リストは手続き型のプログラマにとっては
+長い棒でつんつんするのも避けたい代物ですが，関数型のプログラマはあらゆることに使います．
+それでは関数型プログラマに連結リストの定義を訊いてみましょう．きっとこんな返事が返ってくると思います:
 
 ```haskell
 List a = Empty | Elem a (List a)
 ```
 
-Which reads approximately as "A List is either Empty or an Element followed by a
+<!-- Which reads approximately as "A List is either Empty or an Element followed by a
 List". This is a recursive definition expressed as a *sum type*, which is a
 fancy name for "a type that can have different values which may be different
 types". Rust calls sum types `enum`s! If you're coming from a C-like language,
 this is exactly the enum you know and love, but in overdrive. So let's
-transcribe this functional definition into Rust!
+transcribe this functional definition into Rust! -->
 
-For now we'll avoid generics to keep things simple. We'll only support
-storing signed 32-bit integers:
+これは，おおよそ「リストは空か，リストに続く要素のどちらかである」と読めます．これは再帰的な定義を
+タグ付き共用型 (sum type, tagged union type) を使って表したものです．ただし，タグ付き共用型というのは
+「異なる型の値を持つことができる型」というのをおしゃれに言ったものです．Rust ではこれを `enum` (列挙型)
+と呼んでいます．あなたが C 系の言語をすでにご存じなら，話が早いかもしれません．Rust の `enum` は，あなたが
+知っている（そして愛している）`enum` と同じものです．では，先ほどの関数型定義を Rust で書き直してみましょう．
+
+<!-- For now we'll avoid generics to keep things simple. We'll only support
+storing signed 32-bit integers: -->
+
+今のところ，シンプルにするためジェネリクスは使わないでおきます．符号付き 32 ビット整数 `i32` のみを格納することにします．
 
 ```rust ,ignore
 // in first.rs
 
-// pub says we want people outside this module to be able to use List
+// このモジュールを外部のひとが使えるように pub を付けています
 pub enum List {
     Empty,
     Elem(i32, List),
 }
 ```
 
-*phew*, I'm swamped. Let's just go ahead and compile that:
+<!-- *phew*, I'm swamped. Let's just go ahead and compile that: -->
+
+ふー，忙しい忙しい．さっさとコンパイルしちゃいましょう．
 
 ```text
 > cargo build
@@ -48,8 +63,10 @@ error[E0072]: recursive type `first::List` has infinite size
   = help: insert indirection (e.g., a `Box`, `Rc`, or `&`) at some point to make `first::List` representable
 ```
 
-Well. I don't know about you, but I certainly feel betrayed by the functional
-programming community.
+<!-- Well. I don't know about you, but I certainly feel betrayed by the functional
+programming community. -->
+
+なんだよ，関数型プログラマに騙された！（個人の意見です）
 
 If we actually check out the error message (after we get over the whole
 betrayal thing), we can see that rustc is actually telling us exactly
