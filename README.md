@@ -1,25 +1,19 @@
-# Learn Rust by writing Entirely Too Many Linked Lists
-[![Build Status](https://travis-ci.org/rust-unofficial/too-many-lists.svg?branch=master)](https://travis-ci.org/rust-unofficial/too-many-lists)
+# Learn Rust by writing Entirely Too Many Linked Lists 日本語版
 
-Read the pretty version at https://rust-unofficial.github.io/too-many-lists/.
+## リンク集
 
-# Building
+* 日本語版の本文 https://seasawher.github.io/too-many-lists-ja/
 
-Building requires mdbook, which can be installed from crates.io:
+* 原文 https://rust-unofficial.github.io/too-many-lists/
 
-```sh
-cargo install mdbook
-```
+* 原文のGitHubリポジトリ https://github.com/rust-unofficial/too-many-lists
 
-Assuming you've placed the install directory `~/.cargo/bin` into your system PATH, then run from the root of your local copy:
+## 編集者の方へ
 
-```sh
-mdbook build
-```
+このリポジトリは Gitpod による編集に対応しているので，Gitpod が使えればほかの環境構築は要りません．
 
----
+ [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/Seasawher/too-many-lists-ja)
 
-If you'd prefer, this project can also be built with
-[GitBook](https://github.com/GitbookIO/gitbook), although GitBook
-is not officially supported and compatibility is therefore
-uncertain and incidental.
+## 謝辞
+
+編集にあたっては DeepL 翻訳を参考にしています．
