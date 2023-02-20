@@ -68,24 +68,37 @@ programming community. -->
 
 なんだよ，関数型プログラマに騙された！（個人の意見です）
 
-If we actually check out the error message (after we get over the whole
+<!-- If we actually check out the error message (after we get over the whole
 betrayal thing), we can see that rustc is actually telling us exactly
-how to solve this problem:
+how to solve this problem: -->
 
-> insert indirection (e.g., a `Box`, `Rc`, or `&`) at some point to make `first::List` representable
+(裏切り行為を乗り越えた後) 実際にエラーメッセージを確認すると，実は rustc がこの問題を解決する方法を
+正確に教えてくれていることがわかります．
 
-Alright, `box`. What's that? Let's google `rust box`...
+<!-- > insert indirection (e.g., a `Box`, `Rc`, or `&`) at some point to make `first::List` representable -->
+
+> `first::List` を表すために，どこかで `Box`, `Rc`, `&` などの間接参照を用いてください
+
+<!-- Alright, `box`. What's that? Let's google `rust box`... -->
+
+さてさて，`Box` ってなんでしょうね？ `Rust box` でググってみよう...．
 
 > [std::boxed::Box - Rust](https://doc.rust-lang.org/std/boxed/struct.Box.html)
 
-Lesse here...
+<!-- Lesse here... -->
 
-> `pub struct Box<T>(_);`
->
+どれどれ...．
+
+<!-- > `pub struct Box<T>(_);`
 > A pointer type for heap allocation.
-> See the [module-level documentation](https://doc.rust-lang.org/std/boxed/) for more.
+> See the [module-level documentation](https://doc.rust-lang.org/std/boxed/) for more. -->
+> `pub struct Box<T>(_);`
+> 
+> ヒープ割り当てのためのポインタ型．詳しくは，[モジュールごとのドキュメント]((https://doc.rust-lang.org/std/boxed/))を参照してください．
 
-*clicks link*
+<!-- *clicks link* -->
+
+リンクをクリック．
 
 > `Box<T>`, casually referred to as a 'box', provides the simplest form of heap allocation in Rust. Boxes provide ownership for this allocation, and drop their contents when they go out of scope.
 >
@@ -120,7 +133,10 @@ fn main() {
 >
 > It wouldn't work. This is because the size of a List depends on how many elements are in the list, and so we don't know how much memory to allocate for a Cons. By introducing a Box, which has a defined size, we know how big Cons needs to be.
 
-Wow, uh. That is perhaps the most relevant and helpful documentation I have ever seen. Literally the first thing in the documentation is *exactly what we're trying to write, why it didn't work, and how to fix it*.
+<!-- Wow, uh. That is perhaps the most relevant and helpful documentation I have ever seen. Literally the first thing in the documentation is *exactly what we're trying to write, why it didn't work, and how to fix it*. -->
+
+ワーオ．こんなに適切で役に立つドキュメントは見たことがありませんね．私たちが書いたものがなぜ上手くいかなかったのか，
+そしてどう修正すれば良いのかがずばり書かれています．
 
 Dang, docs rule.
 
