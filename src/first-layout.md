@@ -100,7 +100,7 @@ how to solve this problem: -->
 
 リンクをクリック．
 
-> `Box<T>`, casually referred to as a 'box', provides the simplest form of heap allocation in Rust. Boxes provide ownership for this allocation, and drop their contents when they go out of scope.
+<!-- > `Box<T>`, casually referred to as a 'box', provides the simplest form of heap allocation in Rust. Boxes provide ownership for this allocation, and drop their contents when they go out of scope.
 >
 > Examples
 >
@@ -109,7 +109,16 @@ how to solve this problem: -->
 > `let x = Box::new(5);`
 >
 > Creating a recursive data structure:
->
+> -->
+> `Box<T>` (通称 `box`) は，Rust で最も単純なヒープ割り当ての形式です．ボックスは，この割り当ての所有権を持ち，ボックスがスコープを抜けるとその内容が破棄されます．
+> 
+> 例
+> 
+> ボックスを作る:
+> 
+> `let x = Box::new(5);`
+> 
+> 再帰的なデータ構造を作る:
 ```rust
 #[derive(Debug)]
 enum List<T> {
@@ -124,21 +133,32 @@ fn main() {
     println!("{:?}", list);
 }
 ```
->
+<!-- >
 > This will print `Cons(1, Box(Cons(2, Box(Nil))))`.
 >
 > Recursive structures must be boxed, because if the definition of Cons looked like this:
 >
 > `Cons(T, List<T>),`
 >
-> It wouldn't work. This is because the size of a List depends on how many elements are in the list, and so we don't know how much memory to allocate for a Cons. By introducing a Box, which has a defined size, we know how big Cons needs to be.
+> It wouldn't work. This is because the size of a List depends on how many elements are in the list, and so we don't know how much memory to allocate for a Cons. By introducing a Box, which has a defined size, we know how big Cons needs to be. -->
+> 上のコードは `Cons(1, Box(Cons(2, Box(Nil))))` と出力します．
+> 
+> 次のような形の再帰的な定義はボックス化する必要があります．
+> 
+> `Cons(T, List<T>),`
+> 
+> そのままでは上手くいきません．なぜなら，リストのサイズがリスト自身に含まれている要素の数に依存するので，
+> `Cons` に割り当てるべきメモリの量がわからないからです．ボックスはサイズが決まっているので，`Cons` に
+> 必要な大きさを事前に知ることができます．
 
 <!-- Wow, uh. That is perhaps the most relevant and helpful documentation I have ever seen. Literally the first thing in the documentation is *exactly what we're trying to write, why it didn't work, and how to fix it*. -->
 
 ワーオ．こんなに適切で役に立つドキュメントは見たことがありませんね．私たちが書いたものがなぜ上手くいかなかったのか，
 そしてどう修正すれば良いのかがずばり書かれています．
 
-Dang, docs rule.
+<!-- Dang, docs rule. -->
+
+やっぱりドキュメントは最高だな！
 
 Ok, let's do that:
 
