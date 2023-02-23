@@ -160,7 +160,9 @@ fn main() {
 
 やっぱりドキュメントは最高だな！
 
-Ok, let's do that:
+<!-- Ok, let's do that: -->
+
+よし，やってみよう．
 
 ```rust ,ignore
 pub enum List {
@@ -175,38 +177,58 @@ pub enum List {
    Finished dev [unoptimized + debuginfo] target(s) in 0.22s
 ```
 
-Hey it built!
+<!-- Hey it built! -->
 
-...but this is actually a really foolish definition of a List, for a few reasons.
+やった，ビルドが通ったぞ！
 
-Consider a list with two elements:
+<!-- ...but this is actually a really foolish definition of a List, for a few reasons. -->
+
+しかし，これはいくつかの理由から，実に愚かな定義です．
+
+<!-- Consider a list with two elements: -->
+
+2つの要素を持つリストを考えてみましょう:
 
 ```text
-[] = Stack
-() = Heap
+[] = スタック
+() = ヒープ
 
 [Elem A, ptr] -> (Elem B, ptr) -> (Empty, *junk*)
 ```
 
-There are two key issues:
+<!-- There are two key issues: -->
 
-* We're allocating a node that just says "I'm not actually a Node"
-* One of our nodes isn't heap-allocated at all.
+重要な問題が2つあります．
 
-On the surface, these two seem to cancel each-other out. We heap-allocate an
+<!-- * We're allocating a node that just says "I'm not actually a Node"
+* One of our nodes isn't heap-allocated at all. -->
+
+* 「ぼくはノードじゃない」というだけのノードを割り当てている．
+*  ノードの一つに全くヒープが確保されていない．
+
+<!-- On the surface, these two seem to cancel each-other out. We heap-allocate an
 extra node, but one of our nodes doesn't need to be heap-allocated at all.
-However, consider the following potential layout for our list:
+However, consider the following potential layout for our list: -->
+
+表面的には，この2つは互いに打ち消しあうように見えます．余分なノードをヒープに割り当てる一方で，
+ノードの１つはヒープではなくスタックに割り当てています．しかし次のようなレイアウトのリストを考えてみてください．
 
 ```text
 [ptr] -> (Elem A, ptr) -> (Elem B, *null*)
 ```
 
-In this layout we now unconditionally heap allocate our nodes. The
+<!-- In this layout we now unconditionally heap allocate our nodes. The
 key difference is the absence of the *junk* from our first layout. What is
 this junk? To understand that, we'll need to look at how an enum is laid out
-in memory.
+in memory. -->
 
-In general, if we have an enum like:
+この設計では，ノードは常にヒープに割り当てています．最初の設計との重要な違いは，ジャンクがないことです．
+このジャンクとは何でしょうか？それを理解するために，`enum` がどのようにメモリ上に配置される
+かを見る必要があります．
+
+<!-- In general, if we have an enum like: -->
+
+一般的に，次のような `enum` があったとします:
 
 ```rust ,ignore
 enum Foo {
