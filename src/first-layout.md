@@ -211,7 +211,7 @@ extra node, but one of our nodes doesn't need to be heap-allocated at all.
 However, consider the following potential layout for our list: -->
 
 表面的には，この2つは互いに打ち消しあうように見えます．余分なノードをヒープに割り当てる一方で，
-ノードの１つはヒープではなくスタックに割り当てています．しかし次のようなレイアウトのリストを考えてみてください．
+ノードの１つはヒープではなくスタックに割り当てています．しかし次のような設計のリストを考えてみてください．
 
 ```text
 [ptr] -> (Elem A, ptr) -> (Elem B, *null*)
@@ -239,25 +239,38 @@ enum Foo {
 }
 ```
 
-A Foo will need to store some integer to indicate which *variant* of the enum it
+<!-- A Foo will need to store some integer to indicate which *variant* of the enum it
 represents (`D1`, `D2`, .. `Dn`). This is the *tag* of the enum. It will also
 need enough space to store the *largest* of `T1`, `T2`, .. `Tn` (plus some extra
-space to satisfy alignment requirements).
+space to satisfy alignment requirements). -->
 
-The big takeaway here is that even though `Empty` is a single bit of
+Foo は，それがどの列挙型のヴァリアント (`D1`, `D2`, .. `Dn`) を表しているかを示す整数を格納する必要があります．
+これを列挙型のタグといいます．また，`T1`, `T2`, .. `Tn` のうち最大のものを格納できるだけのスペースも必要です．
+(さらに，アラインメントの要件を満たすための余分なスペースも必要)．
+
+<!-- The big takeaway here is that even though `Empty` is a single bit of
 information, it necessarily consumes enough space for a pointer and an element,
 because it has to be ready to become an `Elem` at any time. Therefore the first
 layout heap allocates an extra element that's just full of junk, consuming a
-bit more space than the second layout.
+bit more space than the second layout. -->
 
-One of our nodes not being allocated at all is also, perhaps surprisingly,
+ここで重要なのは，`Empty` が1ビットの情報であっても，いつでも `Elem` になれるように準備しなければならないので，
+ポインタと要素のために必要なスペースを必ず消費する，ということです．したがって，最初の設計ではヒープにジャンクでいっぱいの
+余分な要素が割り当てられ，2つめの設計よりも少し多くのスペースを消費してしまうのです．
+
+<!-- One of our nodes not being allocated at all is also, perhaps surprisingly,
 *worse* than always allocating it. This is because it gives us a *non-uniform*
 node layout. This doesn't have much of an appreciable effect on pushing and
-popping nodes, but it does have an effect on splitting and merging lists.
+popping nodes, but it does have an effect on splitting and merging lists. -->
 
-Consider splitting a list in both layouts:
+ノードの一つをヒープに割り当てていないことも，悪いことです．常にヒープに割り当てる方がましかもしれません．これはノードの設計が不均一になるからです．
+ノードのプッシュやポップにはあまり影響しませんが，リストの分割やマージには影響します．
 
-```text
+<!-- Consider splitting a list in both layouts: -->
+
+リストの分割を行ったときにどうなるか，両方の設計を比較してみましょう:
+
+<!-- ```text
 layout 1:
 
 [Elem A, ptr] -> (Elem B, ptr) -> (Elem C, ptr) -> (Empty *junk*)
@@ -266,9 +279,20 @@ split off C:
 
 [Elem A, ptr] -> (Elem B, ptr) -> (Empty *junk*)
 [Elem C, ptr] -> (Empty *junk*)
-```
+``` -->
 
 ```text
+設計 1:
+
+[Elem A, ptr] -> (Elem B, ptr) -> (Elem C, ptr) -> (Empty *junk*)
+
+C で分割すると:
+
+[Elem A, ptr] -> (Elem B, ptr) -> (Empty *junk*)
+[Elem C, ptr] -> (Empty *junk*)
+```
+
+<!-- ```text
 layout 2:
 
 [ptr] -> (Elem A, ptr) -> (Elem B, ptr) -> (Elem C, *null*)
@@ -277,16 +301,35 @@ split off C:
 
 [ptr] -> (Elem A, ptr) -> (Elem B, *null*)
 [ptr] -> (Elem C, *null*)
+``` -->
+
+```text
+設計 2:
+
+[ptr] -> (Elem A, ptr) -> (Elem B, ptr) -> (Elem C, *null*)
+
+C で分割すると:
+
+[ptr] -> (Elem A, ptr) -> (Elem B, *null*)
+[ptr] -> (Elem C, *null*)
 ```
 
-Layout 2's split involves just copying B's pointer to the stack and nulling
+<!-- Layout 2's split involves just copying B's pointer to the stack and nulling
 the old value out. Layout 1 ultimately does the same thing, but also has to
-copy C from the heap to the stack. Merging is the same process in reverse.
+copy C from the heap to the stack. Merging is the same process in reverse. -->
 
-One of the few nice things about a linked list is that you can construct the
+設計2の分割では，Bのポインタをスタックにコピーし，古いポインタを `null` にするだけです．
+設計1では同じことをするために，さらにCをヒープからスタックにコピーする必要があります．
+逆になるだけで，マージの場合も同様です．
+
+<!-- One of the few nice things about a linked list is that you can construct the
 element in the node itself, and then freely shuffle it around lists without
 ever moving it. You just fiddle with pointers and stuff gets "moved". Layout 1
-trashes this property.
+trashes this property. -->
+
+ノード自体に要素を構築し，それを動かすことなくリスト間で自由に並び替えることが
+できる点が，連結リストの数少ない長所でした．ポインターをいじるだけで，ものが「移動」するのです．
+設計1ではこの性質がゴミと化しています．
 
 Alright, I'm reasonably convinced Layout 1 is bad. How do we rewrite our List?
 Well, we could do something like:
