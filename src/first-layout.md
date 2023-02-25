@@ -263,7 +263,7 @@ bit more space than the second layout. -->
 node layout. This doesn't have much of an appreciable effect on pushing and
 popping nodes, but it does have an effect on splitting and merging lists. -->
 
-ノードの一つをヒープに割り当てていないことも，悪いことです．常にヒープに割り当てる方がましかもしれません．これはノードの設計が不均一になるからです．
+ノードの一つをヒープに割り当てていないことも，悪いことです．なんでも常にヒープに割り当てる方がましです．これはノードの設計が不均一になるからです．
 ノードのプッシュやポップにはあまり影響しませんが，リストの分割やマージには影響します．
 
 <!-- Consider splitting a list in both layouts: -->
@@ -331,8 +331,11 @@ trashes this property. -->
 できる点が，連結リストの数少ない長所でした．ポインターをいじるだけで，ものが「移動」するのです．
 設計1ではこの性質がゴミと化しています．
 
-Alright, I'm reasonably convinced Layout 1 is bad. How do we rewrite our List?
-Well, we could do something like:
+<!-- Alright, I'm reasonably convinced Layout 1 is bad. How do we rewrite our List?
+Well, we could do something like: -->
+
+なるほど設計1がよくないことはわかりました．ではどのように書き換えればいいのでしょうか？
+そうですね，次のような方法はどうでしょう:
 
 ```rust ,ignore
 pub enum List {
@@ -342,18 +345,28 @@ pub enum List {
 }
 ```
 
-Hopefully this seems like an even worse idea to you. Most notably, this really
+<!-- Hopefully this seems like an even worse idea to you. Most notably, this really
 complicates our logic, because there is now a completely invalid state:
 `ElemThenNotEmpty(0, Box(Empty))`. It also *still* suffers from non-uniformly
-allocating our elements.
+allocating our elements. -->
 
-However it does have *one* interesting property: it totally avoids allocating
+これが更に悪いアイデアに見えることを祈ります．なぜなら，このリストには `ElemThenNotEmpty(0, Box(Empty))` という完全に無効な状態が存在するからです．
+また，要素の割り当てが依然として一様でないことも問題です．
+
+<!-- However it does have *one* interesting property: it totally avoids allocating
 the Empty case, reducing the total number of heap allocations by 1. Unfortunately,
 in doing so it manages to waste *even more space*! This is because the previous
-layout took advantage of the *null pointer optimization*.
+layout took advantage of the *null pointer optimization*. -->
 
-We previously saw that every enum has to store a *tag* to specify which variant
-of the enum its bits represent. However, if we have a special kind of enum:
+しかし，この設計には1つ興味深い特徴があります．Empty ケースの割り当てを完全に回避し，ヒープ割り当ての総数を1つ減らすことができるのです．
+残念なことに，これによって以前の設計で利用できていた **ヌルポインタ最適化** が利用できなくなるので，さらにスペースを浪費する結果になってしまうのですが．
+
+
+<!-- We previously saw that every enum has to store a *tag* to specify which variant
+of the enum its bits represent. However, if we have a special kind of enum: -->
+
+以前，すべての列挙型は，そのビットがどの列挙型のヴァリアントを表しているのかを指定するタグを格納しなければならないとご説明しました．
+しかし，その例外となる特別な種類の列挙型があります:
 
 ```rust,ignore
 enum Foo {
@@ -362,18 +375,28 @@ enum Foo {
 }
 ```
 
-the null pointer optimization kicks in, which *eliminates the space needed for
+<!-- the null pointer optimization kicks in, which *eliminates the space needed for
 the tag*. If the variant is A, the whole enum is set to all `0`'s. Otherwise,
 the variant is B. This works because B can never be all `0`'s, since it contains
-a non-zero pointer. Slick!
+a non-zero pointer. Slick! -->
 
-Can you think of other enums and types that could do this kind of optimization?
+この場合，ヌルポインタ最適化が行われ，タグにスペースを割くことがなくなります．
+もしヴァリアントが A ならば，`enum` 全体がすべて `0` に設定されます．そうでなければヴァリアントは B です．
+これが上手くいくのは, B はゼロでないポインタを含んでいるので，決してゼロにはならないからです．巧妙ですね．
+
+<!-- Can you think of other enums and types that could do this kind of optimization?
 There's actually a lot! This is why Rust leaves enum layout totally unspecified.
 There are a few more complicated enum layout optimizations that Rust will do for
 us, but the null pointer one is definitely the most important!
 It means `&`, `&mut`, `Box`, `Rc`, `Arc`, `Vec`, and
 several other important types in Rust have no overhead when put in an `Option`!
-(We'll get to most of these in due time.)
+(We'll get to most of these in due time.) -->
+
+他の列挙型や型でもこのような最適化ができるでしょうか？実はこういうケースはたくさんあります！
+Rust が `enum` の設計を全く指定しないのはこのためです．
+Rust はもっと複雑な `enum` 設計の最適化も行ってくれますが，最も重要なのは間違いなくナルポインタ最適化です．
+これは，`&`, `&mut`, `Box`, `Rc`, `Arc`, `Vec`, その他 Rust の重要な型が `Option` に入れられたとき，
+オーバーヘッドがないことを意味します！ (後で一部を紹介します)
 
 So how do we avoid the extra junk, uniformly allocate, *and* get that sweet
 null-pointer optimization? We need to better separate out the idea of having an
