@@ -398,18 +398,28 @@ Rust はもっと複雑な `enum` 設計の最適化も行ってくれますが�
 これは，`&`, `&mut`, `Box`, `Rc`, `Arc`, `Vec`, その他 Rust の重要な型が `Option` に入れられたとき，
 オーバーヘッドがないことを意味します！ (後で一部を紹介します)
 
-So how do we avoid the extra junk, uniformly allocate, *and* get that sweet
+<!-- So how do we avoid the extra junk, uniformly allocate, *and* get that sweet
 null-pointer optimization? We need to better separate out the idea of having an
 element from allocating another list. To do this, we have to think a little more
-C-like: structs!
+C-like: structs! -->
 
-While enums let us declare a type that can contain *one* of several values,
+では，どのようにすれば余分なジャンクを発生させず，割り当ても均一にし，ヌルポインタ最適化も
+行うということができるでしょうか？要素を持つことと，別のリストを割り当てることとをうまく切り離す
+必要があります．そのためには，もう少しC言語的に考える必要があります．構造体です！
+
+<!-- While enums let us declare a type that can contain *one* of several values,
 structs let us declare a type that contains *many* values at once. Let's break
-our List into two types: A List, and a Node.
+our List into two types: A List, and a Node. -->
 
-As before, a List is either Empty or has an element followed by another List.
+列挙型では複数の値のいずれか **ひとつ** を格納できましたが，構造体では一度に **多くの** 値を格納できます．
+List を「リスト」と「ノード」の２つの型に分割してみましょう．
+
+<!-- As before, a List is either Empty or has an element followed by another List.
 By representing the "has an element followed by another List" case by an
-entirely separate type, we can hoist the Box to be in a more optimal position:
+entirely separate type, we can hoist the Box to be in a more optimal position: -->
+
+前述したように，List は `Empty` (空) であるか，ある要素の後に別の List が続くかのどちらかです．
+この「要素があり，後に別のリストが続く」ケースを全く別の型で表現することで，`Box` を最適な位置にもっていくことができます．
 
 ```rust ,ignore
 struct Node {
@@ -423,15 +433,24 @@ pub enum List {
 }
 ```
 
-Let's check our priorities:
+<!-- Let's check our priorities: -->
 
-* Tail of a list never allocates extra junk: check!
+チェックリストを確認していきましょう:
+
+<!-- * Tail of a list never allocates extra junk: check!
 * `enum` is in delicious null-pointer-optimized form: check!
-* All elements are uniformly allocated: check!
+* All elements are uniformly allocated: check! -->
 
-Alright! We actually just constructed exactly the layout that we used to
+* リストの末尾に余分なジャンクを割り当てない: OK ✅
+* `enum` のおいしいヌルポインタ最適化を利用できる: OK ✅
+* すべての要素が均一に割り当てられている: OK ✅
+
+<!-- Alright! We actually just constructed exactly the layout that we used to
 demonstrate that our first layout (as suggested by the official Rust
-documentation) was problematic.
+documentation) was problematic. -->
+
+ヨシ！ 実はたったいま構築したのは，Rust の公式ドキュメントで提案されている設計が
+よくないことを示すために最初に使用した設計そのものです．
 
 ```text
 > cargo build
