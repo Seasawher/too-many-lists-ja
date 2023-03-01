@@ -1,4 +1,5 @@
-# Basic Data Layout
+<!-- # Basic Data Layout -->
+# 基本的なデータ設計
 
 <!-- Alright, so what's a linked list? Well basically, it's a bunch of pieces of data
 on the heap (hush, kernel people!) that point to each other in sequence. Linked
@@ -468,12 +469,17 @@ warning: private type `first::Node` in public interface (error E0446)
 
 :(
 
-Rust is mad at us again. We marked the `List` as public (because we want people
+<!-- Rust is mad at us again. We marked the `List` as public (because we want people
 to be able to use it), but not the `Node`. The problem is that the internals of
 an `enum` are totally public, and we're not allowed to publicly talk about
 private types. We could make all of `Node` totally public, but generally in Rust
 we favour keeping implementation details private. Let's make `List` a struct, so
-that we can hide the implementation details:
+that we can hide the implementation details: -->
+
+また Rust が怒ってますね．`List` を (みんなが使えるように) パブリックにしたのですが，`Node` はパブリックにしませんでした．
+`List` の内部は完全にパブリックなので，その内部でプライベートな型について話すのは許されない，ということのようです．
+`Node` 全体をパブリックにすることもできますが，Rust では一般に実装の詳細をプライベートにしておくことが推奨されます．
+そこで，`List` を構造体にして，実装の詳細は隠しておけるようにしましょう．
 
 ```rust ,ignore
 pub struct List {
@@ -491,8 +497,10 @@ struct Node {
 }
 ```
 
-Because `List` is a struct with a single field, its size is the same as that
-field. Yay zero-cost abstractions!
+<!-- Because `List` is a struct with a single field, its size is the same as that
+field. Yay zero-cost abstractions! -->
+
+構造体 `List` はフィールドを１つしか持たないので，そのサイズはフィールドのサイズと同じです．ゼロコスト抽象化です！やったね．
 
 ```text
 > cargo build
@@ -531,8 +539,14 @@ warning: field is never used: `next`
 
 ```
 
-Alright, that compiled! Rust is pretty mad, because as far as it can tell,
+<!-- Alright, that compiled! Rust is pretty mad, because as far as it can tell,
 everything we've written is totally useless: we never use `head`, and no one who
 uses our library can either since it's private. Transitively, that means Link
 and Node are useless too. So let's solve that! Let's implement some code for our
-List!
+List! -->
+
+よし，コンパイルも通りました．Rust がだいぶ怒ってますが，これは Rust の知る限り
+私たちが書いたものが全く役に立たないからです．
+私たちは `head` を使用していませんし，私たちのライブラリを使う人もプライベートなので使うことができません．
+ということは，`Link` と `Node` も役に立たないということになります．では，それを解決しましょう！
+次は，いま作った私たちの `List` のためのコードを実装していきます．

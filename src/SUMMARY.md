@@ -2,7 +2,7 @@
 
 * [イントロダクション](README.md)
 * [だめな実装](first.md)
-    * [Layout](first-layout.md)
+    * [設計](first-layout.md)
     * [New](first-new.md)
     * [Ownership 101](first-ownership.md)
     * [Push](first-push.md)
