@@ -3,7 +3,7 @@
 * [イントロダクション](README.md)
 * [だめな実装](first.md)
     * [設計](first-layout.md)
-    * [New](first-new.md)
+    * [New メソッド](first-new.md)
     * [Ownership 101](first-ownership.md)
     * [Push](first-push.md)
     * [Pop](first-pop.md)
