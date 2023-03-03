@@ -4,7 +4,7 @@
 * [だめな実装](first.md)
     * [設計](first-layout.md)
     * [New メソッド](first-new.md)
-    * [Ownership 101](first-ownership.md)
+    * [所有権のいろは](first-ownership.md)
     * [Push](first-push.md)
     * [Pop](first-pop.md)
     * [Testing](first-test.md)
