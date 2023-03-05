@@ -70,11 +70,11 @@ the *one* thing you can't do with an `&mut`: It would be super rude,
 and Rust is very polite (it would also be incredibly dangerous, but surely
 *that* isn't why it cares). -->
 
-私たちは今 `self.head` フィールドを `next` にムーブしようとしましたが，Rust はそれをやってほしくないのです．
+私たちは今 `self.head` フィールドを `next` にムーブしようとしましたが，それが Rust のお咎めを受けました．
 これでは，借用を終了して正当な所有者に「返す」ときに，部分的にしか初期化されていない `self` を返すことになります．
 先に述べたように，`&mut` でこんなことはできません．
 Rust は非常に礼儀正しいからです．こんな失礼なことはあってはなりません．
-(非常に危険なことでもありますが，礼を失することに比べればとるに足りないことです)．
+(びっくりするほど危険なことでもありますが，礼を失することに比べればとるに足りないことです)．
 
 <!-- What if we put something back? Namely, the node that we're creating: -->
 
