@@ -74,8 +74,11 @@ and Rust is very polite (it would also be incredibly dangerous, but surely
 これでは，借用を終了して正当な所有者に「返す」ときに，部分的にしか初期化されていない `self` を返すことになります．
 先に述べたように，`&mut` でこんなことはできません．
 Rust は非常に礼儀正しいからです．こんな失礼なことはあってはなりません．
+(非常に危険なことでもありますが，礼を失することに比べればとるに足りないことです)．
 
-What if we put something back? Namely, the node that we're creating:
+<!-- What if we put something back? Namely, the node that we're creating: -->
+
+ムーブされた部分を埋めてみたらどうでしょうか？つまり，いま作ったリストを返すわけです:
 
 
 ```rust ,ignore
