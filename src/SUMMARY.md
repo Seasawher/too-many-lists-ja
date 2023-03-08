@@ -5,7 +5,7 @@
     * [設計](first-layout.md)
     * [New メソッド](first-new.md)
     * [所有権のいろは](first-ownership.md)
-    * [Push](first-push.md)
+    * [Push メソッド](first-push.md)
     * [Pop](first-pop.md)
     * [Testing](first-test.md)
     * [Drop](first-drop.md)

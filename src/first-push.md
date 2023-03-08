@@ -1,4 +1,5 @@
-# Push
+<!-- # Push -->
+# Push メソッド
 
 <!-- So let's write pushing a value onto a list. `push` *mutates* the list,
 so we'll want to take `&mut self`. We also need to take an i32 to push: -->
@@ -106,7 +107,7 @@ won't (for various reasons -- the most serious being [exception safety][]). We n
 some way to get the head without Rust noticing that it's gone. For advice, we
 turn to infamous Rust Hacker Indiana Jones: -->
 
-ダメでした．実際には Rust はこれを受け入れてもよいのですが，（様々な理由 -- 最も深刻なのは例外の安全性です -- により）
+ダメでした．実際には Rust はこれを受け入れてもよいのですが，（様々な理由 -- 最も深刻なのは[例外安全性][]です -- により）
 受け容れません．
 Rust に気づかれないように，`head` を取得する方法が必要なのです．
 そこで，悪名高き Rust ハッカー，インディアナ・ジョーンズに助言を求めましょう:
@@ -119,12 +120,15 @@ value. Let's just pull in `std::mem` at the top of the file, so that `mem` is in
 local scope: -->
 
 おっ，インディは `mem::replace` を使うことを提案していますね．
+この信じられないほど便利な関数を使えば，値を別の値で **置き換える** ことで，借りた値を盗むことができます．
+`mem` を使用するためには，ファイルの先頭に `std::mem` を引っ張ってきたうえで:
 
 ```rust ,ignore
 use std::mem;
 ```
 
-and use it appropriately:
+<!-- and use it appropriately: -->
+使うべきところで使えばよいです:
 
 ```rust ,ignore
 pub fn push(&mut self, elem: i32) {
@@ -137,16 +141,20 @@ pub fn push(&mut self, elem: i32) {
 }
 ```
 
-Here we `replace` self.head temporarily with Link::Empty before replacing it
+<!-- Here we `replace` self.head temporarily with Link::Empty before replacing it
 with the new head of the list. I'm not gonna lie: this is a pretty unfortunate
-thing to have to do. Sadly, we must (for now).
+thing to have to do. Sadly, we must (for now). -->
 
-But hey, that's `push` all done! Probably. We should probably test it, honestly.
+ここでは `self.head` を一時的に `Link::Empty` に `replace` してから，リストの新しい `head` に置き換えています．
+率直に言って，これはかなり不満の残るコードです．しかし悲しいかな，そうせざるを得ないのですよ．
+今のところはね．
+
+<!-- But hey, that's `push` all done! Probably. We should probably test it, honestly.
 Right now the easiest way to do that is probably to write `pop`, and make sure
-that it produces the right results.
+that it produces the right results. -->
 
+でも，これで `push` メソッドが完成しました！たぶんだけど．
+正直，テストをしないとわかりません．
+今テストをする最も簡単な方法は，おそらく `pop` も書いて，正しい結果が得られるか確認することでしょう．
 
-
-
-
-[exception safety]: https://doc.rust-lang.org/nightly/nomicon/exception-safety.html
+[例外安全性]: https://doc.rust-lang.org/nightly/nomicon/exception-safety.html
