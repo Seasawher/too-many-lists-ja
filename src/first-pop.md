@@ -1,9 +1,15 @@
-# Pop
+<!-- # Pop -->
+# Pop メソッド
 
-Like `push`, `pop` wants to mutate the list. Unlike `push`, we actually
+<!-- Like `push`, `pop` wants to mutate the list. Unlike `push`, we actually
 want to return something. But `pop` also has to deal with a tricky corner
 case: what if the list is empty? To represent this case, we use the trusty
-`Option` type:
+`Option` type: -->
+
+`push` と同様，`pop` はリストを変更するメソッドです．
+`push` と異なるところは，実際に何かしらの値を返すことですね．
+`pop` はリストが空だったらどうするかという厄介なコーナーケースも扱う必要があります．
+このケースに対処するために，`Option` 型という頼もしい道具を使用します:
 
 ```rust ,ignore
 pub fn pop(&mut self) -> Option<i32> {
@@ -11,18 +17,32 @@ pub fn pop(&mut self) -> Option<i32> {
 }
 ```
 
-`Option<T>` is an enum that represents a value that may exist. It can either be
+<!-- `Option<T>` is an enum that represents a value that may exist. It can either be
 `Some(T)` or `None`. We could make our own enum for this like we did for
 Link, but we want our users to be able to understand what the heck our return
 type is, and Option is so ubiquitous that *everyone* knows it. In fact, it's so
 fundamental that it's implicitly imported into scope in every file, as well
-as its variants `Some` and `None` (so we don't have to say `Option::None`).
+as its variants `Some` and `None` (so we don't have to say `Option::None`). -->
 
-The pointy bits on `Option<T>` indicate that Option is actually *generic* over
-T. That means that you can make an Option for *any* type!
+`Option<T>` は存在するかどうかわからない値を扱う列挙型です．
+`Some(T)` か `None` かのいずれかの値を取ります．
+`Link` のときにやったように独自の `enum` を作ってもいいのですが，ユーザに戻り値が何なのか理解してほしいので，
+どこにでもあり **誰もが** 知っている `Option` 型を使うのが得策です．
+実際，`Option` は非常に基本的なものなので，すべてのファイルで暗黙のうちにスコープに取り込まれます．
+そのヴァリアントである `Some` や `None` も同様です．
+(ですから，`Option::None` などと書く必要はないのです)
 
-So uh, we have this `Link` thing, how do we figure out if it's Empty or has
-More? Pattern matching with `match`!
+<!-- The pointy bits on `Option<T>` indicate that Option is actually *generic* over
+T. That means that you can make an Option for *any* type! -->
+
+`Option<T>` の `<T>` は，`Option` が `T` に対するジェネリックであることを示しています．
+つまり，どんな型に対しても `Option` を作ることができるのです！
+
+<!-- So uh, we have this `Link` thing, how do we figure out if it's Empty or has
+More? Pattern matching with `match`! -->
+
+さて，この `Link` ですが，`Empty` か `More` のどちらなのか，どうやって判断すればいいでしょう?
+`match` でパターンマッチしてみますか！
 
 ```rust ,ignore
 pub fn pop(&mut self) -> Option<i32> {
@@ -52,11 +72,17 @@ error[E0308]: mismatched types
               found type `()`
 ```
 
-Whoops, `pop` has to return a value, and we're not doing that yet. We *could*
+<!-- Whoops, `pop` has to return a value, and we're not doing that yet. We *could*
 return `None`, but in this case it's probably a better idea to return
 `unimplemented!()`, to indicate that we aren't done implementing the function.
 `unimplemented!()` is a macro (`!` indicates a macro) that panics the program
-when we get to it (\~crashes it in a controlled manner).
+when we get to it (\~crashes it in a controlled manner). -->
+
+おっと，`pop` は値を返さないといけないのに，まだやっていませんでしたね．
+`None` を返すこともできますが，この場合，
+関数の実装が終わっていないことを示すために `unimplemented!()` を返す方が良いでしょう．
+`unimplemented!()` はマクロで (`!` はマクロを表します)，これに到達するとプログラムがパニックします．
+(パニックとは，制御された方法でプログラムをクラッシュさせること)．
 
 ```rust ,ignore
 pub fn pop(&mut self) -> Option<i32> {
