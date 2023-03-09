@@ -98,15 +98,25 @@ pub fn pop(&mut self) -> Option<i32> {
 }
 ```
 
-Unconditional panics are an example of a [diverging function][diverging].
+<!-- Unconditional panics are an example of a [diverging function][diverging].
 Diverging functions never return to the caller, so they may be used in places
 where a value of any type is expected. Here, `unimplemented!()` is being
-used in place of a value of type `Option<T>`.
+used in place of a value of type `Option<T>`. -->
 
-Note also that we don't need to write `return` in our program. The last
+無条件のパニックは，発散する関数 ([diverging function][diverging]) の例です．
+発散する関数は呼び出し元に戻ることがないので，本来期待される値の型がなんであったとしても，
+使用することができます．
+ここでは，`Option<T>` 型の代わりに `unimplemented!()` を使用しています．
+
+<!-- Note also that we don't need to write `return` in our program. The last
 expression (basically line) in a function is implicitly its return value. This
 lets us express really simple things a bit more concisely. You can always
-explicitly return early with `return` like any other C-like language.
+explicitly return early with `return` like any other C-like language. -->
+
+また，プログラム中に `return` を書く必要はないことに注意してください．
+関数の最後の式 (基本的には行) が，暗黙のうちに戻り値になります．
+これによって，すごく単純な関数をさらに単純にすることができます．
+他の C 系の言語と同様に，`return` で早めに値を明示的に返すこともできます．
 
 ```text
 > cargo build
@@ -130,16 +140,31 @@ note: move occurs because `node` has type `std::boxed::Box<first::Node>`, which 
    |                        ^^^^
 ```
 
-Come on Rust, get off our back! As always, Rust is hella mad at us. Thankfully,
+<!-- Come on Rust, get off our back! As always, Rust is hella mad at us. Thankfully,
 this time it's also giving us the full scoop! By default, a pattern match will
 try to move its contents into the new branch, but we can't do this because we
-don't own self by-value here.
+don't own self by-value here. -->
+
+おい Rust, 俺たちの邪魔をするな！
+いつものように，Rust がカンカンに起こっています．
+でも今回はちゃんと理由を教えてくれました．
+デフォルトでは，パターンマッチは中身を新しいブランチにムーブしようとしますが，
+ここでは `self` を値として所有していないため，これが行えないのです．
+
+<!-- ```text
+help: consider borrowing here: `&self.head`
+``` -->
 
 ```text
 help: consider borrowing here: `&self.head`
+
+ヘルプ: 借用することを検討してみてください: `&self.head`
 ```
 
-Rust says we should add a reference to our `match` to fix that. 🤷‍♀️ Let's try it:
+<!-- Rust says we should add a reference to our `match` to fix that. 🤷‍♀️ Let's try it: -->
+
+Rust が言うには，`match` を参照にすれば直るみたいですね．🤷‍♀️
+試してみましょう:
 
 ```rust ,ignore
 pub fn pop(&mut self) -> Option<i32> {
