@@ -1,6 +1,6 @@
 # Summary
 
-* [イントロダクション](README.md)
+[イントロダクション](README.md)
 * [だめな実装](first.md)
     * [設計](first-layout.md)
     * [New メソッド](first-new.md)
