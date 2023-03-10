@@ -206,10 +206,17 @@ warning: field is never used: `next`
    |     ^^^^^^^^^^
 ```
 
-Hooray, compiling again! Now let's figure out that logic. We want to make an
+<!-- Hooray, compiling again! Now let's figure out that logic. We want to make an
 Option, so let's make a variable for that. In the Empty case we need to return
 None. In the More case we need to return `Some(i32)`, and change the head of
-the list. So, let's try to do basically that?
+the list. So, let's try to do basically that? -->
+
+万歳，コンパイルが通ったぞ！
+それでは，TODO で残しておいたロジック部分を考えていきましょう．
+`Option` を作りたいので，そのための変数を作ります．
+`Empty` の場合には `None` を返さないといけませんね．
+`More` の場合には `Some(i32)` を返して，リストの先頭を変更する必要があります．
+おおまかにはこんな感じでどうでしょうか？
 
 ```rust ,ignore
 pub fn pop(&mut self) -> Option<i32> {
@@ -238,31 +245,53 @@ error[E0507]: cannot move out of borrowed content
 
 ```
 
-*head*
+<!-- *head*
 
-*desk*
+*desk* -->
 
-We're trying to move out of `node` when all we have is a shared reference to it.
+ゴン！(頭を机に叩きつけた音)
 
-We should probably step back and think about what we're trying to do. We want
-to:
+<!-- We're trying to move out of `node` when all we have is a shared reference to it. -->
 
-* Check if the list is empty.
+共有参照しているものを，`node` からムーブしようとしてしまったようです．
+
+<!-- We should probably step back and think about what we're trying to do. We want
+to: -->
+
+立ち止まって，これからやろうとしていることが何なのか考え直すべきでしょう．
+私たちがやりたいのは次のようなことです:
+
+<!-- * Check if the list is empty.
 * If it's empty, just return None
 * If it's *not* empty
     * remove the head of the list
     * remove its `elem`
     * replace the list's head with its `next`
-    * return `Some(elem)`
+    * return `Some(elem)` -->
 
-The key insight is we want to *remove* things, which means we want to get the
+* リストが空かどうかチェックする
+* 空であれば，`None` を返せばいいです
+* 空でなかったときは以下を実行します:
+  * リストの先頭を削除する
+  * `elem` を削除する
+  * リストの先頭を `next` で置き換える
+  * `Some(elem)` を返す
+
+<!-- The key insight is we want to *remove* things, which means we want to get the
 head of the list *by value*. We certainly can't do that through the shared
 reference we get through `&self.head`. We also "only" have a mutable reference
 to `self`, so the only way we can move stuff is to *replace it*. Looks like we're doing
-the Empty dance again!
+the Empty dance again! -->
 
-Let's try that:
+重要なことは，私たちが **削除** をしようとしているという点です．
+これはつまるところリストの先頭を（所有権のある）値として取得する必要があることを意味します．
+共有参照である `&self.head` では，そんなことはできません．
+さらに `self` への参照は既にある可変参照「だけ」なので，ムーブするには置き換えるしかありません．
+どうやら，また我々は Empty ダンスをしているようです！
 
+<!-- Let's try that: -->
+
+試してみましょう:
 
 ```rust ,ignore
 pub fn pop(&mut self) -> Option<i32> {
@@ -286,19 +315,30 @@ cargo build
    Finished dev [unoptimized + debuginfo] target(s) in 0.22s
 ```
 
-O M G
+<!-- O M G -->
 
-It compiled without *any* warnings!!!!!
+ありえない…．
 
-Actually I'm going to apply my own personal lint here: we made this `result`
+<!-- It compiled without *any* warnings!!!!! -->
+
+警告を **ひとつも** 出さずにコンパイルできました!!!!!
+
+<!-- Actually I'm going to apply my own personal lint here: we made this `result`
 value to return, but actually we didn't need to do that at all! Just as a
 function evaluates to its last expression, every block also evaluates to
 its last expression. Normally we supress this behaviour with semi-colons,
 which instead makes the block evaluate to the empty tuple, `()`. This is
 actually the value that functions which don't declare a return value -- like
-`push` -- return.
+`push` -- return. -->
 
-So instead, we can write `pop` as:
+個人的なこだわりですが，ここでコード整形をしましょう: `result` という変数を使いましたが，実はこれは不要です．
+関数が最後の式で評価されるのと同じように，`match` の各ブロックも最後の式で評価されます．
+通常はセミコロンを付けて文にすることでこの挙動を抑制し，ブロックの評価を空のタプル `()` にしますね．
+この `()` は `push` のように戻り値を宣言しない関数の返り値です．
+
+<!-- So instead, we can write `pop` as: -->
+
+そこで，代わりに `pop` をこう書くことができます:
 
 ```rust ,ignore
 pub fn pop(&mut self) -> Option<i32> {
@@ -312,9 +352,13 @@ pub fn pop(&mut self) -> Option<i32> {
 }
 ```
 
-Which is a bit more concise and idiomatic. Note that the Link::Empty branch
+<!-- Which is a bit more concise and idiomatic. Note that the Link::Empty branch
 completely lost its braces, because we only have one expression to
-evaluate. Just a nice shorthand for simple cases.
+evaluate. Just a nice shorthand for simple cases. -->
+
+より簡潔で慣用的なコードになりました．
+`Link::Empty` ブランチでは，中括弧 `{}` が完全に失われていることに注意してください．
+評価する式が１つしかないときには省略できるんです．
 
 ```text
 cargo build
@@ -322,9 +366,9 @@ cargo build
    Finished dev [unoptimized + debuginfo] target(s) in 0.22s
 ```
 
-Nice, still works!
+<!-- Nice, still works! -->
 
-
+ちゃんとコンパイルも通りました．いいね！
 
 [ownership]: first-ownership.html
 [diverging]: https://doc.rust-lang.org/nightly/book/ch19-04-advanced-types.html#the-never-type-that-never-returns

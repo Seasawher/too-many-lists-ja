@@ -6,7 +6,7 @@
     * [New メソッド](first-new.md)
     * [所有権のいろは](first-ownership.md)
     * [Push メソッド](first-push.md)
-    * [Pop](first-pop.md)
+    * [Pop メソッド](first-pop.md)
     * [Testing](first-test.md)
     * [Drop](first-drop.md)
     * [Final Code](first-final.md)
