@@ -1,16 +1,25 @@
-# Testing
+<!-- # Testing -->
+# テスト
 
-Alright, so we've got `push` and `pop` written, now we can actually test out
+<!-- Alright, so we've got `push` and `pop` written, now we can actually test out
 our stack! Rust and cargo support testing as a first-class feature, so this
 will be super easy. All we have to do is write a function, and annotate it with
-`#[test]`.
+`#[test]`. -->
 
-Generally, we try to keep our tests next to the code that it's testing in the
+さて，`push` と `pop` を書き終えたので，次は書いたコードを実際にテストしてみましょう！
+Rust と cargo は，ファーストクラスの機能としてテストをサポートしているので，これは非常に簡単です．
+関数を書いて，`#[test]` というアノテーション (注釈) を付けるだけでいいんです．
+
+<!-- Generally, we try to keep our tests next to the code that it's testing in the
 Rust community. However we usually make a new namespace for the tests, to
 avoid conflicting with the "real" code. Just as we used `mod` to specify that
 `first.rs` should be included in `lib.rs`, we can use `mod` to basically
-create a whole new file *inline*:
+create a whole new file *inline*: -->
 
+一般的に，Rust コミュニティではテストはテストされるコードの隣におくのが慣習です．
+しかし「本当の」コードとの衝突を避けるために，通常テスト用に新しい名前空間を作ります．
+`first.rs` が `lib.rs` に含まれるよう指定するために `mod` を使いましたが，
+`mod` はインラインで全く新しいファイルを作成することにも使用することができます．
 
 ```rust ,ignore
 // in first.rs
