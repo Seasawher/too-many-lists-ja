@@ -1,13 +1,21 @@
-# Drop
+<!-- # Drop -->
+# Drop メソッド
 
-We can make a stack, push on to, pop off it, and we've even tested that it all
-works right!
+<!-- We can make a stack, push on to, pop off it, and we've even tested that it all
+works right! -->
 
-Do we need to worry about cleaning up our list? Technically, no, not at all!
+スタックを作成し，`push` を実装し，`pop` もできるようにし，さらにそれが全て正しく動くことのテストもやりました．
+
+<!-- Do we need to worry about cleaning up our list? Technically, no, not at all!
 Like C++, Rust uses destructors to automatically clean up resources when they're
 done with. A type has a destructor if it implements a *trait* called Drop.
 Traits are Rust's fancy term for interfaces. The Drop trait has the following
-interface:
+interface: -->
+
+この上さらに `drop` を実装し，リストの片付けができるようにする必要があるのでしょうか？
+技術的には，全く必要ありません．
+C++ と同じように，Rust はリソースを使い終わった時に自動的にデストラクタを呼んでクリーンアップを行います．
+型は，`Drop` という **トレイト** を実装している時にデストラクタを持ちます．
 
 ```rust ,ignore
 pub trait Drop {
