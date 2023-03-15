@@ -8,7 +8,7 @@
     * [Push メソッド](first-push.md)
     * [Pop メソッド](first-pop.md)
     * [テスト](first-test.md)
-    * [Drop](first-drop.md)
+    * [Drop メソッド](first-drop.md)
     * [Final Code](first-final.md)
 * [An Ok Stack](second.md)
     * [Option](second-option.md)
