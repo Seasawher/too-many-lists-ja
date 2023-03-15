@@ -23,19 +23,29 @@ pub trait Drop {
 }
 ```
 
-Basically, "when you go out of scope, I'll give you a second to clean up your
-affairs".
+<!-- Basically, "when you go out of scope, I'll give you a second to clean up your
+affairs". -->
 
-You don't actually need to implement Drop if you contain types that implement
+基本的に「スコープから出たら，さっさと荷物をまとめろ」ということです．
+
+<!-- You don't actually need to implement Drop if you contain types that implement
 Drop, and all you'd want to do is call *their* destructors. In the case of
 List, all it would want to do is drop its head, which in turn would *maybe*
 try to drop a `Box<Node>`. All that's handled for us automatically... with one
-hitch.
+hitch. -->
 
-The automatic handling is going to be bad.
+リストの要素の型に `Drop` が実装されていれば，実際に `Drop` を実装する必要はありません．
+デストラクタを呼び出すだけでいいのです．
+List の場合，デストラクタがやることはそのヘッドを `drop` することですが，その結果 `Box<Node>` を `drop` することになる可能性があります．
+その全てが自動的に処理されるのですが，一つだけ難点があります．
 
-Let's consider a simple list:
+<!-- The automatic handling is going to be bad. -->
 
+自動的な処理だとまずいことがあるのです．
+
+<!-- Let's consider a simple list: -->
+
+単純なリストを考えてみましょう:
 
 ```text
 list -> A -> B -> C
