@@ -9,7 +9,7 @@
     * [Pop メソッド](first-pop.md)
     * [テスト](first-test.md)
     * [Drop メソッド](first-drop.md)
-    * [Final Code](first-final.md)
+    * [出来上がり](first-final.md)
 * [An Ok Stack](second.md)
     * [Option](second-option.md)
     * [Generic](second-generic.md)
