@@ -32,7 +32,9 @@ mod test {
 }
 ```
 
-And we invoke it with `cargo test`.
+<!-- And we invoke it with `cargo test`. -->
+
+`cargo test` コマンドで呼び出します.
 
 ```text
 > cargo test
@@ -47,10 +49,17 @@ test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
 ; 0 filtered out
 ```
 
-Yay our do-nothing test passed! Let's make it not-do-nothing. We'll do that
+<!-- Yay our do-nothing test passed! Let's make it not-do-nothing. We'll do that
 with the `assert_eq!` macro. This isn't some special testing magic. All it
 does is compare the two things you give it, and panic the program if they don't
-match. Yep, you indicate failure to the test harness by freaking out!
+match. Yep, you indicate failure to the test harness by freaking out! -->
+
+やったー！何もしないテストに合格しました！
+では，何かをするテストにしていきましょう．
+そのために `assert_eq!` マクロを利用します．
+これは特別なテストの魔法ではありません．
+このマクロがすることは，与えられた２つのものを比較し，一致しない場合はプログラムをパニックするということだけです． 
+パニックを起こすことで，テストハーネスに失敗を示すのです．
 
 ```rust ,ignore
 mod test {
