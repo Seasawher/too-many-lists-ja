@@ -1,0 +1,541 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Pop メソッド - Learning Rust With Entirely Too Many Linked Lists 日本語版</title>
+        
+        
+
+
+        <!-- Custom HTML head -->
+        
+
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="Learning Rust With Entirely Too Many Linked Lists">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        
+        <link rel="icon" href="favicon.svg">
+        
+        
+        <link rel="shortcut icon" href="favicon.png">
+        
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        
+        <link rel="stylesheet" href="css/print.css" media="print">
+        
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        
+        <link rel="stylesheet" href="fonts/fonts.css">
+        
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+
+        
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="index.html">イントロダクション</a></li><li class="chapter-item expanded "><a href="first.html"><strong aria-hidden="true">1.</strong> だめな実装</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="first-layout.html"><strong aria-hidden="true">1.1.</strong> 設計</a></li><li class="chapter-item expanded "><a href="first-new.html"><strong aria-hidden="true">1.2.</strong> New メソッド</a></li><li class="chapter-item expanded "><a href="first-ownership.html"><strong aria-hidden="true">1.3.</strong> 所有権のいろは</a></li><li class="chapter-item expanded "><a href="first-push.html"><strong aria-hidden="true">1.4.</strong> Push メソッド</a></li><li class="chapter-item expanded "><a href="first-pop.html" class="active"><strong aria-hidden="true">1.5.</strong> Pop メソッド</a></li><li class="chapter-item expanded "><a href="first-test.html"><strong aria-hidden="true">1.6.</strong> テスト</a></li><li class="chapter-item expanded "><a href="first-drop.html"><strong aria-hidden="true">1.7.</strong> Drop メソッド</a></li><li class="chapter-item expanded "><a href="first-final.html"><strong aria-hidden="true">1.8.</strong> 出来上がり</a></li></ol></li><li class="chapter-item expanded "><a href="second.html"><strong aria-hidden="true">2.</strong> An Ok Stack</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="second-option.html"><strong aria-hidden="true">2.1.</strong> Option</a></li><li class="chapter-item expanded "><a href="second-generic.html"><strong aria-hidden="true">2.2.</strong> Generic</a></li><li class="chapter-item expanded "><a href="second-peek.html"><strong aria-hidden="true">2.3.</strong> Peek</a></li><li class="chapter-item expanded "><a href="second-into-iter.html"><strong aria-hidden="true">2.4.</strong> IntoIter</a></li><li class="chapter-item expanded "><a href="second-iter.html"><strong aria-hidden="true">2.5.</strong> Iter</a></li><li class="chapter-item expanded "><a href="second-iter-mut.html"><strong aria-hidden="true">2.6.</strong> IterMut</a></li><li class="chapter-item expanded "><a href="second-final.html"><strong aria-hidden="true">2.7.</strong> Final Code</a></li></ol></li><li class="chapter-item expanded "><a href="third.html"><strong aria-hidden="true">3.</strong> A Persistent Stack</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="third-layout.html"><strong aria-hidden="true">3.1.</strong> Layout</a></li><li class="chapter-item expanded "><a href="third-basics.html"><strong aria-hidden="true">3.2.</strong> Basics</a></li><li class="chapter-item expanded "><a href="third-drop.html"><strong aria-hidden="true">3.3.</strong> Drop</a></li><li class="chapter-item expanded "><a href="third-arc.html"><strong aria-hidden="true">3.4.</strong> Arc</a></li><li class="chapter-item expanded "><a href="third-final.html"><strong aria-hidden="true">3.5.</strong> Final Code</a></li></ol></li><li class="chapter-item expanded "><a href="fourth.html"><strong aria-hidden="true">4.</strong> A Bad Safe Deque</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="fourth-layout.html"><strong aria-hidden="true">4.1.</strong> Layout</a></li><li class="chapter-item expanded "><a href="fourth-building.html"><strong aria-hidden="true">4.2.</strong> Building</a></li><li class="chapter-item expanded "><a href="fourth-breaking.html"><strong aria-hidden="true">4.3.</strong> Breaking</a></li><li class="chapter-item expanded "><a href="fourth-peek.html"><strong aria-hidden="true">4.4.</strong> Peek</a></li><li class="chapter-item expanded "><a href="fourth-symmetry.html"><strong aria-hidden="true">4.5.</strong> Symmetric Cases</a></li><li class="chapter-item expanded "><a href="fourth-iteration.html"><strong aria-hidden="true">4.6.</strong> Iteration</a></li><li class="chapter-item expanded "><a href="fourth-final.html"><strong aria-hidden="true">4.7.</strong> Final Code</a></li></ol></li><li class="chapter-item expanded "><a href="fifth.html"><strong aria-hidden="true">5.</strong> An Ok Unsafe Queue</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="fifth-layout.html"><strong aria-hidden="true">5.1.</strong> Layout</a></li><li class="chapter-item expanded "><a href="fifth-unsafe.html"><strong aria-hidden="true">5.2.</strong> Unsafe</a></li><li class="chapter-item expanded "><a href="fifth-basics.html"><strong aria-hidden="true">5.3.</strong> Basics</a></li><li class="chapter-item expanded "><a href="fifth-miri.html"><strong aria-hidden="true">5.4.</strong> Miri</a></li><li class="chapter-item expanded "><a href="fifth-stacked-borrows.html"><strong aria-hidden="true">5.5.</strong> Stacked Borrows</a></li><li class="chapter-item expanded "><a href="fifth-testing-stacked-borrows.html"><strong aria-hidden="true">5.6.</strong> Testing Stacked Borrows</a></li><li class="chapter-item expanded "><a href="fifth-layout-basics-redux.html"><strong aria-hidden="true">5.7.</strong> Layout + Basics Redux</a></li><li class="chapter-item expanded "><a href="fifth-extras.html"><strong aria-hidden="true">5.8.</strong> Extras</a></li><li class="chapter-item expanded "><a href="fifth-final.html"><strong aria-hidden="true">5.9.</strong> Final Code</a></li></ol></li><li class="chapter-item expanded "><a href="sixth.html"><strong aria-hidden="true">6.</strong> A Production Unsafe Deque</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="sixth-layout.html"><strong aria-hidden="true">6.1.</strong> Layout</a></li><li class="chapter-item expanded "><a href="sixth-variance.html"><strong aria-hidden="true">6.2.</strong> Variance and Subtyping</a></li><li class="chapter-item expanded "><a href="sixth-basics.html"><strong aria-hidden="true">6.3.</strong> Basics</a></li><li class="chapter-item expanded "><a href="sixth-panics.html"><strong aria-hidden="true">6.4.</strong> Panic Safety</a></li><li class="chapter-item expanded "><a href="sixth-combinatorics.html"><strong aria-hidden="true">6.5.</strong> Boring Combinatorics</a></li><li class="chapter-item expanded "><a href="sixth-random-bits.html"><strong aria-hidden="true">6.6.</strong> Filling In Random Bits</a></li><li class="chapter-item expanded "><a href="sixth-testing.html"><strong aria-hidden="true">6.7.</strong> Testing</a></li><li class="chapter-item expanded "><a href="sixth-send-sync.html"><strong aria-hidden="true">6.8.</strong> Send, Sync, and Compile Tests</a></li><li class="chapter-item expanded "><a href="sixth-cursors-intro.html"><strong aria-hidden="true">6.9.</strong> An Introduction To Cursors</a></li><li class="chapter-item expanded "><a href="sixth-cursors-impl.html"><strong aria-hidden="true">6.10.</strong> Implementing Cursors</a></li><li class="chapter-item expanded "><a href="sixth-cursors-testing.html"><strong aria-hidden="true">6.11.</strong> Testing Cursors</a></li><li class="chapter-item expanded "><a href="sixth-final.html"><strong aria-hidden="true">6.12.</strong> Final Code</a></li></ol></li><li class="chapter-item expanded "><a href="infinity.html"><strong aria-hidden="true">7.</strong> A Bunch of Silly Lists</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="infinity-double-single.html"><strong aria-hidden="true">7.1.</strong> The Double Single</a></li><li class="chapter-item expanded "><a href="infinity-stack-allocated.html"><strong aria-hidden="true">7.2.</strong> The Stack-Allocated Linked List</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                        
+                    </div>
+
+                    <h1 class="menu-title">Learning Rust With Entirely Too Many Linked Lists 日本語版</h1>
+
+                    <div class="right-buttons">
+                        
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        
+                        
+                        <a href="https://github.com/rust-unofficial/too-many-lists" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        
+                    </div>
+                </div>
+
+                
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <!-- # Pop -->
+<h1><a class="header" href="#pop-メソッド" id="pop-メソッド">Pop メソッド</a></h1>
+<!-- Like `push`, `pop` wants to mutate the list. Unlike `push`, we actually
+want to return something. But `pop` also has to deal with a tricky corner
+case: what if the list is empty? To represent this case, we use the trusty
+`Option` type: -->
+<p><code>push</code> と同様，<code>pop</code> はリストを変更するメソッドです．
+<code>push</code> と異なるところは，実際に何かしらの値を返すことですね．
+<code>pop</code> はリストが空だったらどうするかという厄介なコーナーケースも扱う必要があります．
+このケースに対処するために，<code>Option</code> 型という頼もしい道具を使用します:</p>
+<pre><code class="language-rust ignore">pub fn pop(&amp;mut self) -&gt; Option&lt;i32&gt; {
+    // TODO
+}
+</code></pre>
+<!-- `Option<T>` is an enum that represents a value that may exist. It can either be
+`Some(T)` or `None`. We could make our own enum for this like we did for
+Link, but we want our users to be able to understand what the heck our return
+type is, and Option is so ubiquitous that *everyone* knows it. In fact, it's so
+fundamental that it's implicitly imported into scope in every file, as well
+as its variants `Some` and `None` (so we don't have to say `Option::None`). -->
+<p><code>Option&lt;T&gt;</code> は存在するかどうかわからない値を扱う列挙型です．
+<code>Some(T)</code> か <code>None</code> かのいずれかの値を取ります．
+<code>Link</code> のときにやったように独自の <code>enum</code> を作ってもいいのですが，ユーザに戻り値が何なのか理解してほしいので，
+どこにでもあり <strong>誰もが</strong> 知っている <code>Option</code> 型を使うのが得策です．
+実際，<code>Option</code> は非常に基本的なものなので，すべてのファイルで暗黙のうちにスコープに取り込まれます．
+そのヴァリアントである <code>Some</code> や <code>None</code> も同様です．
+(ですから，<code>Option::None</code> などと書く必要はないのです)</p>
+<!-- The pointy bits on `Option<T>` indicate that Option is actually *generic* over
+T. That means that you can make an Option for *any* type! -->
+<p><code>Option&lt;T&gt;</code> の <code>&lt;T&gt;</code> は，<code>Option</code> が <code>T</code> に対するジェネリックであることを示しています．
+つまり，どんな型に対しても <code>Option</code> を作ることができるのです！</p>
+<!-- So uh, we have this `Link` thing, how do we figure out if it's Empty or has
+More? Pattern matching with `match`! -->
+<p>さて，この <code>Link</code> ですが，<code>Empty</code> か <code>More</code> のどちらなのか，どうやって判断すればいいでしょう?
+<code>match</code> でパターンマッチしてみますか！</p>
+<pre><code class="language-rust ignore">pub fn pop(&amp;mut self) -&gt; Option&lt;i32&gt; {
+    match self.head {
+        Link::Empty =&gt; {
+            // TODO
+        }
+        Link::More(node) =&gt; {
+            // TODO
+        }
+    };
+}
+</code></pre>
+<pre><code class="language-text">&gt; cargo build
+
+error[E0308]: mismatched types
+  --&gt; src/first.rs:27:30
+   |
+27 |     pub fn pop(&amp;mut self) -&gt; Option&lt;i32&gt; {
+   |            ---               ^^^^^^^^^^^ expected enum `std::option::Option`, found ()
+   |            |
+   |            this function's body doesn't return
+   |
+   = note: expected type `std::option::Option&lt;i32&gt;`
+              found type `()`
+</code></pre>
+<!-- Whoops, `pop` has to return a value, and we're not doing that yet. We *could*
+return `None`, but in this case it's probably a better idea to return
+`unimplemented!()`, to indicate that we aren't done implementing the function.
+`unimplemented!()` is a macro (`!` indicates a macro) that panics the program
+when we get to it (\~crashes it in a controlled manner). -->
+<p>おっと，<code>pop</code> は値を返さないといけないのに，まだやっていませんでしたね．
+<code>None</code> を返すこともできますが，この場合，
+関数の実装が終わっていないことを示すために <code>unimplemented!()</code> を返す方が良いでしょう．
+<code>unimplemented!()</code> はマクロで (<code>!</code> はマクロを表します)，これに到達するとプログラムがパニックします．
+(パニックとは，制御された方法でプログラムをクラッシュさせること)．</p>
+<pre><code class="language-rust ignore">pub fn pop(&amp;mut self) -&gt; Option&lt;i32&gt; {
+    match self.head {
+        Link::Empty =&gt; {
+            // TODO
+        }
+        Link::More(node) =&gt; {
+            // TODO
+        }
+    };
+    unimplemented!()
+}
+</code></pre>
+<!-- Unconditional panics are an example of a [diverging function][diverging].
+Diverging functions never return to the caller, so they may be used in places
+where a value of any type is expected. Here, `unimplemented!()` is being
+used in place of a value of type `Option<T>`. -->
+<p>無条件のパニックは，発散する関数 (<a href="https://doc.rust-lang.org/nightly/book/ch19-04-advanced-types.html#the-never-type-that-never-returns">diverging function</a>) の例です．
+発散する関数は呼び出し元に戻ることがないので，本来期待される値の型がなんであったとしても，
+使用することができます．
+ここでは，<code>Option&lt;T&gt;</code> 型の代わりに <code>unimplemented!()</code> を使用しています．</p>
+<!-- Note also that we don't need to write `return` in our program. The last
+expression (basically line) in a function is implicitly its return value. This
+lets us express really simple things a bit more concisely. You can always
+explicitly return early with `return` like any other C-like language. -->
+<p>また，プログラム中に <code>return</code> を書く必要はないことに注意してください．
+関数の最後の式 (基本的には行) が，暗黙のうちに戻り値になります．
+これによって，すごく単純な関数をさらに単純にすることができます．
+他の C 系の言語と同様に，<code>return</code> で早めに値を明示的に返すこともできます．</p>
+<pre><code class="language-text">&gt; cargo build
+
+error[E0507]: cannot move out of borrowed content
+  --&gt; src/first.rs:28:15
+   |
+28 |         match self.head {
+   |               ^^^^^^^^^
+   |               |
+   |               cannot move out of borrowed content
+   |               help: consider borrowing here: `&amp;self.head`
+...
+32 |             Link::More(node) =&gt; {
+   |                        ---- data moved here
+   |
+note: move occurs because `node` has type `std::boxed::Box&lt;first::Node&gt;`, which does not implement the `Copy` trait
+  --&gt; src/first.rs:32:24
+   |
+32 |             Link::More(node) =&gt; {
+   |                        ^^^^
+</code></pre>
+<!-- Come on Rust, get off our back! As always, Rust is hella mad at us. Thankfully,
+this time it's also giving us the full scoop! By default, a pattern match will
+try to move its contents into the new branch, but we can't do this because we
+don't own self by-value here. -->
+<p>おい Rust, 俺たちの邪魔をするな！
+いつものように，Rust がカンカンに起こっています．
+でも今回はちゃんと理由を教えてくれました．
+デフォルトでは，パターンマッチは中身を新しいブランチにムーブしようとしますが，
+ここでは <code>self</code> を値として所有していないため，これが行えないのです．</p>
+<!-- ```text
+help: consider borrowing here: `&self.head`
+``` -->
+<pre><code class="language-text">help: consider borrowing here: `&amp;self.head`
+
+ヘルプ: 借用することを検討してみてください: `&amp;self.head`
+</code></pre>
+<!-- Rust says we should add a reference to our `match` to fix that. 🤷‍♀️ Let's try it: -->
+<p>Rust が言うには，<code>match</code> を参照にすれば直るみたいですね．🤷‍♀️
+試してみましょう:</p>
+<pre><code class="language-rust ignore">pub fn pop(&amp;mut self) -&gt; Option&lt;i32&gt; {
+    match &amp;self.head {
+        Link::Empty =&gt; {
+            // TODO
+        }
+        Link::More(node) =&gt; {
+            // TODO
+        }
+    };
+    unimplemented!()
+}
+</code></pre>
+<pre><code class="language-text">&gt; cargo build
+
+warning: unused variable: `node`
+  --&gt; src/first.rs:32:24
+   |
+32 |             Link::More(node) =&gt; {
+   |                        ^^^^ help: consider prefixing with an underscore: `_node`
+   |
+   = note: #[warn(unused_variables)] on by default
+
+warning: field is never used: `elem`
+  --&gt; src/first.rs:13:5
+   |
+13 |     elem: i32,
+   |     ^^^^^^^^^
+   |
+   = note: #[warn(dead_code)] on by default
+
+warning: field is never used: `next`
+  --&gt; src/first.rs:14:5
+   |
+14 |     next: Link,
+   |     ^^^^^^^^^^
+</code></pre>
+<!-- Hooray, compiling again! Now let's figure out that logic. We want to make an
+Option, so let's make a variable for that. In the Empty case we need to return
+None. In the More case we need to return `Some(i32)`, and change the head of
+the list. So, let's try to do basically that? -->
+<p>万歳，コンパイルが通ったぞ！
+それでは，TODO で残しておいたロジック部分を考えていきましょう．
+<code>Option</code> を作りたいので，そのための変数を作ります．
+<code>Empty</code> の場合には <code>None</code> を返さないといけませんね．
+<code>More</code> の場合には <code>Some(i32)</code> を返して，リストの先頭を変更する必要があります．
+おおまかにはこんな感じでどうでしょうか？</p>
+<pre><code class="language-rust ignore">pub fn pop(&amp;mut self) -&gt; Option&lt;i32&gt; {
+    let result;
+    match &amp;self.head {
+        Link::Empty =&gt; {
+            result = None;
+        }
+        Link::More(node) =&gt; {
+            result = Some(node.elem);
+            self.head = node.next;
+        }
+    };
+    result
+}
+</code></pre>
+<pre><code class="language-text">&gt; cargo build
+   Compiling lists v0.1.0 (/Users/ABeingessner/dev/temp/lists)
+error[E0507]: cannot move out of borrowed content
+  --&gt; src/first.rs:35:29
+   |
+35 |                 self.head = node.next;
+   |                             ^^^^^^^^^ cannot move out of borrowed content
+
+</code></pre>
+<!-- *head*
+
+*desk* -->
+<p>ゴン！(頭を机に叩きつけた音)</p>
+<!-- We're trying to move out of `node` when all we have is a shared reference to it. -->
+<p>共有参照しているものを，<code>node</code> からムーブしようとしてしまったようです．</p>
+<!-- We should probably step back and think about what we're trying to do. We want
+to: -->
+<p>立ち止まって，これからやろうとしていることが何なのか考え直すべきでしょう．
+私たちがやりたいのは次のようなことです:</p>
+<!-- * Check if the list is empty.
+* If it's empty, just return None
+* If it's *not* empty
+    * remove the head of the list
+    * remove its `elem`
+    * replace the list's head with its `next`
+    * return `Some(elem)` -->
+<ul>
+<li>リストが空かどうかチェックする</li>
+<li>空であれば，<code>None</code> を返せばいいです</li>
+<li>空でなかったときは以下を実行します:
+<ul>
+<li>リストの先頭を削除する</li>
+<li><code>elem</code> を削除する</li>
+<li>リストの先頭を <code>next</code> で置き換える</li>
+<li><code>Some(elem)</code> を返す</li>
+</ul>
+</li>
+</ul>
+<!-- The key insight is we want to *remove* things, which means we want to get the
+head of the list *by value*. We certainly can't do that through the shared
+reference we get through `&self.head`. We also "only" have a mutable reference
+to `self`, so the only way we can move stuff is to *replace it*. Looks like we're doing
+the Empty dance again! -->
+<p>重要なことは，私たちが <strong>削除</strong> をしようとしているという点です．
+これはつまるところリストの先頭を（所有権のある）値として取得する必要があることを意味します．
+共有参照である <code>&amp;self.head</code> では，そんなことはできません．
+さらに <code>self</code> への参照は既にある可変参照「だけ」なので，ムーブするには置き換えるしかありません．
+どうやら，また我々は Empty ダンスをしているようです！</p>
+<!-- Let's try that: -->
+<p>試してみましょう:</p>
+<pre><code class="language-rust ignore">pub fn pop(&amp;mut self) -&gt; Option&lt;i32&gt; {
+    let result;
+    match mem::replace(&amp;mut self.head, Link::Empty) {
+        Link::Empty =&gt; {
+            result = None;
+        }
+        Link::More(node) =&gt; {
+            result = Some(node.elem);
+            self.head = node.next;
+        }
+    };
+    result
+}
+</code></pre>
+<pre><code class="language-text">cargo build
+
+   Finished dev [unoptimized + debuginfo] target(s) in 0.22s
+</code></pre>
+<!-- O M G -->
+<p>ありえない…．</p>
+<!-- It compiled without *any* warnings!!!!! -->
+<p>警告を <strong>ひとつも</strong> 出さずにコンパイルできました!!!!!</p>
+<!-- Actually I'm going to apply my own personal lint here: we made this `result`
+value to return, but actually we didn't need to do that at all! Just as a
+function evaluates to its last expression, every block also evaluates to
+its last expression. Normally we supress this behaviour with semi-colons,
+which instead makes the block evaluate to the empty tuple, `()`. This is
+actually the value that functions which don't declare a return value -- like
+`push` -- return. -->
+<p>個人的なこだわりですが，ここでコード整形をしましょう: <code>result</code> という変数を使いましたが，実はこれは不要です．
+関数が最後の式で評価されるのと同じように，<code>match</code> の各ブロックも最後の式で評価されます．
+通常はセミコロンを付けて文にすることでこの挙動を抑制し，ブロックの評価を空のタプル <code>()</code> にしますね．
+この <code>()</code> は <code>push</code> のように戻り値を宣言しない関数の返り値です．</p>
+<!-- So instead, we can write `pop` as: -->
+<p>そこで，代わりに <code>pop</code> をこう書くことができます:</p>
+<pre><code class="language-rust ignore">pub fn pop(&amp;mut self) -&gt; Option&lt;i32&gt; {
+    match mem::replace(&amp;mut self.head, Link::Empty) {
+        Link::Empty =&gt; None,
+        Link::More(node) =&gt; {
+            self.head = node.next;
+            Some(node.elem)
+        }
+    }
+}
+</code></pre>
+<!-- Which is a bit more concise and idiomatic. Note that the Link::Empty branch
+completely lost its braces, because we only have one expression to
+evaluate. Just a nice shorthand for simple cases. -->
+<p>より簡潔で慣用的なコードになりました．
+<code>Link::Empty</code> ブランチでは，中括弧 <code>{}</code> が完全に失われていることに注意してください．
+評価する式が１つしかないときには省略できるんです．</p>
+<pre><code class="language-text">cargo build
+
+   Finished dev [unoptimized + debuginfo] target(s) in 0.22s
+</code></pre>
+<!-- Nice, still works! -->
+<p>ちゃんとコンパイルも通りました．いいね！</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+                            <a rel="prev" href="first-push.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+
+                        
+                            <a rel="next" href="first-test.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+                    <a rel="prev" href="first-push.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a rel="next" href="first-test.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+            </nav>
+
+        </div>
+
+        
+
+        
+
+        
+
+        
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        
+
+        
+
+        
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+
+        
+
+    </body>
+</html>
