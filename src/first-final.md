@@ -91,9 +91,12 @@ mod test {
 }
 ```
 
+<!-- 
 Geez. 80 lines, and half of it was tests! Well, I did say this first one was
-going to take a while!
+going to take a while! -->
 
+マジかよ，たった 80 行, それも半分がテストコードだなんて！
+確かにこの最初の章は時間がかかるって言ったけどさ！
 
 
 
