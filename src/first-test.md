@@ -61,7 +61,7 @@ match. Yep, you indicate failure to the test harness by freaking out! -->
 このマクロがすることは，与えられた２つのものを比較し，一致しない場合はプログラムをパニックするということだけです． 
 パニックを起こすことで，テストハーネスに失敗を示すのです．
 
-```rust ,ignore
+<!-- ```rust ,ignore
 mod test {
     #[test]
     fn basics() {
@@ -92,6 +92,39 @@ mod test {
         assert_eq!(list.pop(), None);
     }
 }
+``` -->
+
+```rust ,ignore
+mod test {
+    #[test]
+    fn basics() {
+        let mut list = List::new();
+
+        // 空のリストが正しい振る舞いをするか
+        assert_eq!(list.pop(), None);
+
+        // リストに要素を詰める
+        list.push(1);
+        list.push(2);
+        list.push(3);
+
+        // 削除が機能するか
+        assert_eq!(list.pop(), Some(3));
+        assert_eq!(list.pop(), Some(2));
+
+        // 何も破損していないことを確かめるために，さらに要素をプッシュする
+        list.push(4);
+        list.push(5);
+
+        // 削除が機能するか
+        assert_eq!(list.pop(), Some(5));
+        assert_eq!(list.pop(), Some(4));
+
+        // リストが空になるか
+        assert_eq!(list.pop(), Some(1));
+        assert_eq!(list.pop(), None);
+    }
+}
 ```
 
 ```text
@@ -106,13 +139,22 @@ error[E0433]: failed to resolve: use of undeclared type or module `List`
 
 ```
 
-Oops! Because we made a new module, we need to pull in List explicitly to use
-it.
+<!-- Oops! Because we made a new module, we need to pull in List explicitly to use
+it. -->
+
+おっと．新しいモジュールを作ったので，リストを使うには明示的にそれを引き込む必要があります．
+
+<!-- ```rust ,ignore
+mod test {
+    use super::List;
+    // everything else the same
+}
+``` -->
 
 ```rust ,ignore
 mod test {
     use super::List;
-    // everything else the same
+    // 他は全部同じ
 }
 ```
 
@@ -137,21 +179,39 @@ test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
 ; 0 filtered out
 ```
 
-Yay!
+<!-- Yay! -->
 
-What's up with that warning though...? We clearly use List in our test!
+やった！
 
-...but only when testing! To appease the compiler (and to be friendly to our
+<!-- What's up with that warning though...? We clearly use List in our test! -->
+しかし，`super::List` が使用されていないという警告が出ているのは，どういうことでしょう…？
+どう考えてもテストの中で使ってますよね．
+
+<!-- ...but only when testing! To appease the compiler (and to be friendly to our
 consumers), we should indicate that the whole `test` module should only be
-compiled if we're running tests.
+compiled if we're running tests. -->
 
+…テストの時だけですけどね！
+コンパイラを喜ばせるために（そしてユーザに優しくするために）テストを実行する時だけ，テストモジュールをコンパイルするように指示する必要があります．
 
-```rust ,ignore
+<!-- ```rust ,ignore
 #[cfg(test)]
 mod test {
     use super::List;
     // everything else the same
 }
+``` -->
+
+```rust ,ignore
+#[cfg(test)]
+mod test {
+    use super::List;
+    // 他は全部同じ
+}
 ```
 
-And that's everything for testing!
+<!-- And that's everything for testing! -->
+
+これでテストは完璧です！
+
+

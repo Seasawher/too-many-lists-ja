@@ -7,7 +7,7 @@
     * [所有権のいろは](first-ownership.md)
     * [Push メソッド](first-push.md)
     * [Pop メソッド](first-pop.md)
-    * [Testing](first-test.md)
+    * [テスト](first-test.md)
     * [Drop](first-drop.md)
     * [Final Code](first-final.md)
 * [An Ok Stack](second.md)
