@@ -51,16 +51,24 @@ List の場合，デストラクタがやることはそのヘッドを `drop` �
 list -> A -> B -> C
 ```
 
-When `list` gets dropped, it will try to drop A, which will try to drop B,
+<!-- When `list` gets dropped, it will try to drop A, which will try to drop B,
 which will try to drop C. Some of you might rightly be getting nervous. This is
-recursive code, and recursive code can blow the stack!
+recursive code, and recursive code can blow the stack! -->
 
-Some of you might be thinking "this is clearly tail recursive, and any decent
+`list` がドロップされると，A をドロップしようとし，B をドロップしようとし，C をドロップしようとします．
+お分かりいただけたでしょうか…？
+処理が再帰的になっているので，スタックを吹っ飛ばしてしまう可能性があるのです．
+
+<!-- Some of you might be thinking "this is clearly tail recursive, and any decent
 language would ensure that such code wouldn't blow the stack". This is, in fact,
 incorrect! To see why, let's try to write what the compiler has to do, by
-manually implementing Drop for our List as the compiler would:
+manually implementing Drop for our List as the compiler would: -->
 
+「これは明らかに末尾再帰的だ．まともな言語であれば，このようなコードでスタックが吹っ飛ぶことはないはずだ」と思われた方もいらっしゃるかもしれません．
+これは，実は間違っているのです！
+その理由を知るために，コンパイラが `List` の `Drop` をどのように行うか，手作業で実装してみましょう:
 
+<!--
 ```rust ,ignore
 impl Drop for List {
     fn drop(&mut self) {
@@ -94,12 +102,50 @@ impl Drop for Node {
     }
 }
 ```
+-->
 
-We *can't* drop the contents of the Box *after* deallocating, so there's no
+```rust ,ignore
+impl Drop for List {
+    fn drop(&mut self) {
+        // 注意: 実際には Rust で明示的に `drop` を呼び出すことはできません． 
+        // コンパイラごっこをしているんです！
+        self.head.drop(); // 末尾再帰的です - いいね！
+    }
+}
+
+impl Drop for Link {
+    fn drop(&mut self) {
+        match *self {
+            Link::Empty => {} // ヨシ！
+            Link::More(ref mut boxed_node) => {
+                boxed_node.drop(); // 末尾再帰的です - いいね！
+            }
+        }
+    }
+}
+
+impl Drop for Box<Node> {
+    fn drop(&mut self) {
+        self.ptr.drop(); // あっ，末尾再帰的じゃないぞ！
+        deallocate(self.ptr);
+    }
+}
+
+impl Drop for Node {
+    fn drop(&mut self) {
+        self.next.drop();
+    }
+}
+```
+
+<!-- We *can't* drop the contents of the Box *after* deallocating, so there's no
 way to drop in a tail-recursive manner! Instead we're going to have to manually
-write an iterative drop for `List` that hoists nodes out of their boxes.
+write an iterative drop for `List` that hoists nodes out of their boxes. -->
 
+`Box` の中身を `deallocate` した後にドロップすることはできないので，末尾再帰的な方法でドロップすることは **できません**．
+代わりに，`Node` を `Box` から出すのを手動で繰り返す必要があります．
 
+<!--
 ```rust ,ignore
 impl Drop for List {
     fn drop(&mut self) {
@@ -110,6 +156,22 @@ impl Drop for List {
             // boxed_node goes out of scope and gets dropped here;
             // but its Node's `next` field has been set to Link::Empty
             // so no unbounded recursion occurs.
+        }
+    }
+}
+```
+-->
+
+```rust ,ignore
+impl Drop for List {
+    fn drop(&mut self) {
+        let mut cur_link = mem::replace(&mut self.head, Link::Empty);
+        // `while let` == "このパターンがマッチしている間は，処理を繰り返す"
+        while let Link::More(mut boxed_node) = cur_link {
+            cur_link = mem::replace(&mut boxed_node.next, Link::Empty);
+            // boxed_node はスコープ外に出るので，ここでドロップされる
+            // しかし，そのノードの `next` フィールドは `Link::Empty` に設定されています
+            // したがって，際限なく再帰を繰り返すことはありません
         }
     }
 }
@@ -127,7 +189,9 @@ test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured
 
 ```
 
-Great!
+<!-- Great! -->
+
+最高！
 
 ----------------------
 
