@@ -1,4 +1,5 @@
-# The Final Code
+<!-- # The Final Code -->
+# 出来上がり
 
 <!-- Alright, 6000 words later, here's all the code we managed to actually write: -->
 
