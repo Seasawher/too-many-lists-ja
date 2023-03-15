@@ -1,6 +1,8 @@
 # The Final Code
 
-Alright, 6000 words later, here's all the code we managed to actually write:
+<!-- Alright, 6000 words later, here's all the code we managed to actually write: -->
+
+さて，6000 字を費やして，実際に書き上げたコードは以下の通りです:
 
 ```rust
 use std::mem;
@@ -91,3 +93,11 @@ mod test {
 
 Geez. 80 lines, and half of it was tests! Well, I did say this first one was
 going to take a while!
+
+
+
+
+
+
+
+
