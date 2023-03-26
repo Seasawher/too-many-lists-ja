@@ -176,19 +176,26 @@ to [the first chapter](first.md) if you just want to learn some Rust! -->
 私に対するいくつかの反論と，それに対する私からの再反論の詳細を以下に示しておきますが，Rust を学びたい方は[第1章](first.md)まで読み飛ばしてください．
 
 
-## Performance doesn't always matter
+<!-- ## Performance doesn't always matter -->
+## パフォーマンスは必ずしも問題ではない
 
-Yes! Maybe your application is I/O-bound or the code in question is in some
+<!-- Yes! Maybe your application is I/O-bound or the code in question is in some
 cold case that just doesn't matter. But this isn't even an argument for using
 a linked list. This is an argument for using *whatever at all*. Why settle for
-a linked list? Use a linked hash map!
+a linked list? Use a linked hash map! -->
 
-If performance doesn't matter, then it's *surely* fine to apply the natural
-default of an array.
+そうですね！
+もしかしたら，あなたのアプリは I/O バウンドになっているのかもしれませんし，
+問題のコードはめったに呼び出されないどうでもいい部分かもしれません．
+しかし，それは連結リストを使う理由にはなりません．
+これは，どんなものでも使うべきだという主張なのです．
+連結リストにこだわる理由は何でしょう？
+linked hash map (順序つきの辞書) を使えばいいじゃないですか！ 
 
+<!-- If performance doesn't matter, then it's *surely* fine to apply the natural
+default of an array. -->
 
-
-
+パフォーマンスが問題でないのであれば，配列をそのまま使っても **全然** 問題ないでしょう．
 
 ## They have O(1) split-append-insert-remove if you have a pointer there
 
