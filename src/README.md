@@ -197,21 +197,30 @@ default of an array. -->
 
 パフォーマンスが問題でないのであれば，配列をそのまま使っても **全然** 問題ないでしょう．
 
-## They have O(1) split-append-insert-remove if you have a pointer there
+<!-- ## They have O(1) split-append-insert-remove if you have a pointer there -->
 
-Yep! Although as [Bjarne Stroustrup notes][bjarne] *this doesn't actually
+## ポインタがそこにあれば，O(1) 時間で分割・追加・挿入・削除が可能
+
+<!-- Yep! Although as [Bjarne Stroustrup notes][bjarne] *this doesn't actually
 matter* if the time it takes to get that pointer completely dwarfs the
 time it would take to just copy over all the elements in an array (which is
-really quite fast).
+really quite fast). -->
 
-Unless you have a workload that is heavily dominated by splitting and merging
+その通りですね！しかし [Bjarne Stroustrup][bjarne] で指摘されているように，この利点は実際には重要ではありません．
+配列のすべての要素をコピーするより，連結リストのポインタを取得する方がずっと多くの時間がかかるものだからです．
+配列のコピーは実際には非常に高速です．
+
+<!-- Unless you have a workload that is heavily dominated by splitting and merging
 costs, the penalty *every other* operation takes due to caching effects and code
-complexity will eliminate any theoretical gains.
+complexity will eliminate any theoretical gains. -->
 
-*But yes, if you're profiling your application to spend a lot of time in
-splitting and merging, you may have gains in a linked list*.
+分割や結合のコストが作業負荷の大半を占めるような場合でない限り，
+キャッシュ効果やコードの複雑さによって **他のすべて** の操作が受けるペナルティが，あらゆる理論的なメリットを上回ってしまいます．
 
+<!-- *But yes, if you're profiling your application to spend a lot of time in
+splitting and merging, you may have gains in a linked list*. -->
 
+しかしまぁ，分割や結合に多くの時間を費やすようなアプリを開発しているのであれば，連結リストにも利点があるかもしれませんね．
 
 
 
