@@ -222,17 +222,24 @@ splitting and merging, you may have gains in a linked list*. -->
 
 しかしまぁ，分割や結合に多くの時間を費やすようなアプリを開発しているのであれば，連結リストにも利点があるかもしれませんね．
 
+<!-- ## I can't afford amortization -->
 
+## 償却の余裕がない
 
-## I can't afford amortization
-
-You've already entered a pretty niche space -- most can afford amortization.
+<!-- You've already entered a pretty niche space -- most can afford amortization.
 Still, arrays are amortized *in the worst case*. Just because you're using an
 array, doesn't mean you have amortized costs. If you can predict how many
 elements you're going to store (or even have an upper-bound), you can
 pre-reserve all the space you need. In my experience it's *very* common to be
 able to predict how many elements you'll need. In Rust in particular, all
-iterators provide a `size_hint` for exactly this case.
+iterators provide a `size_hint` for exactly this case. -->
+
+かなりニッチな領域に足を踏み入れているようですね．ほとんどの場合は償却の余裕があります．
+確かに，配列は **最悪の場合**, 償却されます．
+配列を使用しているからといって，コストも償却されているとは限りません．
+もし格納する要素の数が予測できるなら（あるいは上限を決めておけば），必要なスペースをあらかじめ確保することができます．
+私の経験では，必要な要素の数を予測できるのは **ごく普通** のことです．
+特に Rust では，すべてのイテレータがまさにこのような場合のために `size_hint` メソッドを持っています．
 
 Then `push` and `pop` will be truly O(1) operations. And they're going to be
 *considerably* faster than `push` and `pop` on linked list. You do a pointer
