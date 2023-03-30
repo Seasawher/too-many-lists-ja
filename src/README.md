@@ -241,10 +241,15 @@ iterators provide a `size_hint` for exactly this case. -->
 私の経験では，必要な要素の数を予測できるのは **ごく普通** のことです．
 特に Rust では，すべてのイテレータがまさにこのような場合のために `size_hint` メソッドを持っています．
 
-Then `push` and `pop` will be truly O(1) operations. And they're going to be
+<!-- Then `push` and `pop` will be truly O(1) operations. And they're going to be
 *considerably* faster than `push` and `pop` on linked list. You do a pointer
 offset, write the bytes, and increment an integer. No need to go to any kind of
-allocator.
+allocator. -->
+
+そうすると, `push` と `pop` はまさに O(1) 演算になります．
+そして，連結リストの `push` と `pop` よりもかなり高速になります．
+ポインタのオフセットを行い，バイトを書き込み，整数をインクリメントします．
+アロケータの類を使う必要はありません．
 
 How's that for low latency?
 
