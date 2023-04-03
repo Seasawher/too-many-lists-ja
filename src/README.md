@@ -251,14 +251,14 @@ allocator. -->
 ポインタのオフセットを行い，バイトを書き込み，整数をインクリメントします．
 アロケータの類を使う必要はありません．
 
-How's that for low latency?
+<!-- How's that for low latency? -->
 
-*But yes, if you can't predict your load, there are worst-case
-latency savings to be had!*
+低遅延はどうでしょうか？
 
+<!-- *But yes, if you can't predict your load, there are worst-case
+latency savings to be had!* -->
 
-
-
+しかし，そうですね，負荷が予測できない場合は，連結リストを使用することで最悪の場合の遅延を抑えることができるでしょうね！
 
 ## Linked lists waste less space
 
