@@ -1,0 +1,676 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>設計 - Learning Rust With Entirely Too Many Linked Lists 日本語版</title>
+        
+        
+
+
+        <!-- Custom HTML head -->
+        
+
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="Learning Rust With Entirely Too Many Linked Lists">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        
+        <link rel="icon" href="favicon.svg">
+        
+        
+        <link rel="shortcut icon" href="favicon.png">
+        
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        
+        <link rel="stylesheet" href="css/print.css" media="print">
+        
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        
+        <link rel="stylesheet" href="fonts/fonts.css">
+        
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+
+        
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="index.html">イントロダクション</a></li><li class="chapter-item expanded "><a href="first.html"><strong aria-hidden="true">1.</strong> だめな実装</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="first-layout.html" class="active"><strong aria-hidden="true">1.1.</strong> 設計</a></li><li class="chapter-item expanded "><a href="first-new.html"><strong aria-hidden="true">1.2.</strong> New メソッド</a></li><li class="chapter-item expanded "><a href="first-ownership.html"><strong aria-hidden="true">1.3.</strong> 所有権のいろは</a></li><li class="chapter-item expanded "><a href="first-push.html"><strong aria-hidden="true">1.4.</strong> Push メソッド</a></li><li class="chapter-item expanded "><a href="first-pop.html"><strong aria-hidden="true">1.5.</strong> Pop メソッド</a></li><li class="chapter-item expanded "><a href="first-test.html"><strong aria-hidden="true">1.6.</strong> テスト</a></li><li class="chapter-item expanded "><a href="first-drop.html"><strong aria-hidden="true">1.7.</strong> Drop メソッド</a></li><li class="chapter-item expanded "><a href="first-final.html"><strong aria-hidden="true">1.8.</strong> 出来上がり</a></li></ol></li><li class="chapter-item expanded "><a href="second.html"><strong aria-hidden="true">2.</strong> An Ok Stack</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="second-option.html"><strong aria-hidden="true">2.1.</strong> Option</a></li><li class="chapter-item expanded "><a href="second-generic.html"><strong aria-hidden="true">2.2.</strong> Generic</a></li><li class="chapter-item expanded "><a href="second-peek.html"><strong aria-hidden="true">2.3.</strong> Peek</a></li><li class="chapter-item expanded "><a href="second-into-iter.html"><strong aria-hidden="true">2.4.</strong> IntoIter</a></li><li class="chapter-item expanded "><a href="second-iter.html"><strong aria-hidden="true">2.5.</strong> Iter</a></li><li class="chapter-item expanded "><a href="second-iter-mut.html"><strong aria-hidden="true">2.6.</strong> IterMut</a></li><li class="chapter-item expanded "><a href="second-final.html"><strong aria-hidden="true">2.7.</strong> Final Code</a></li></ol></li><li class="chapter-item expanded "><a href="third.html"><strong aria-hidden="true">3.</strong> A Persistent Stack</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="third-layout.html"><strong aria-hidden="true">3.1.</strong> Layout</a></li><li class="chapter-item expanded "><a href="third-basics.html"><strong aria-hidden="true">3.2.</strong> Basics</a></li><li class="chapter-item expanded "><a href="third-drop.html"><strong aria-hidden="true">3.3.</strong> Drop</a></li><li class="chapter-item expanded "><a href="third-arc.html"><strong aria-hidden="true">3.4.</strong> Arc</a></li><li class="chapter-item expanded "><a href="third-final.html"><strong aria-hidden="true">3.5.</strong> Final Code</a></li></ol></li><li class="chapter-item expanded "><a href="fourth.html"><strong aria-hidden="true">4.</strong> A Bad Safe Deque</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="fourth-layout.html"><strong aria-hidden="true">4.1.</strong> Layout</a></li><li class="chapter-item expanded "><a href="fourth-building.html"><strong aria-hidden="true">4.2.</strong> Building</a></li><li class="chapter-item expanded "><a href="fourth-breaking.html"><strong aria-hidden="true">4.3.</strong> Breaking</a></li><li class="chapter-item expanded "><a href="fourth-peek.html"><strong aria-hidden="true">4.4.</strong> Peek</a></li><li class="chapter-item expanded "><a href="fourth-symmetry.html"><strong aria-hidden="true">4.5.</strong> Symmetric Cases</a></li><li class="chapter-item expanded "><a href="fourth-iteration.html"><strong aria-hidden="true">4.6.</strong> Iteration</a></li><li class="chapter-item expanded "><a href="fourth-final.html"><strong aria-hidden="true">4.7.</strong> Final Code</a></li></ol></li><li class="chapter-item expanded "><a href="fifth.html"><strong aria-hidden="true">5.</strong> An Ok Unsafe Queue</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="fifth-layout.html"><strong aria-hidden="true">5.1.</strong> Layout</a></li><li class="chapter-item expanded "><a href="fifth-unsafe.html"><strong aria-hidden="true">5.2.</strong> Unsafe</a></li><li class="chapter-item expanded "><a href="fifth-basics.html"><strong aria-hidden="true">5.3.</strong> Basics</a></li><li class="chapter-item expanded "><a href="fifth-miri.html"><strong aria-hidden="true">5.4.</strong> Miri</a></li><li class="chapter-item expanded "><a href="fifth-stacked-borrows.html"><strong aria-hidden="true">5.5.</strong> Stacked Borrows</a></li><li class="chapter-item expanded "><a href="fifth-testing-stacked-borrows.html"><strong aria-hidden="true">5.6.</strong> Testing Stacked Borrows</a></li><li class="chapter-item expanded "><a href="fifth-layout-basics-redux.html"><strong aria-hidden="true">5.7.</strong> Layout + Basics Redux</a></li><li class="chapter-item expanded "><a href="fifth-extras.html"><strong aria-hidden="true">5.8.</strong> Extras</a></li><li class="chapter-item expanded "><a href="fifth-final.html"><strong aria-hidden="true">5.9.</strong> Final Code</a></li></ol></li><li class="chapter-item expanded "><a href="sixth.html"><strong aria-hidden="true">6.</strong> A Production Unsafe Deque</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="sixth-layout.html"><strong aria-hidden="true">6.1.</strong> Layout</a></li><li class="chapter-item expanded "><a href="sixth-variance.html"><strong aria-hidden="true">6.2.</strong> Variance and Subtyping</a></li><li class="chapter-item expanded "><a href="sixth-basics.html"><strong aria-hidden="true">6.3.</strong> Basics</a></li><li class="chapter-item expanded "><a href="sixth-panics.html"><strong aria-hidden="true">6.4.</strong> Panic Safety</a></li><li class="chapter-item expanded "><a href="sixth-combinatorics.html"><strong aria-hidden="true">6.5.</strong> Boring Combinatorics</a></li><li class="chapter-item expanded "><a href="sixth-random-bits.html"><strong aria-hidden="true">6.6.</strong> Filling In Random Bits</a></li><li class="chapter-item expanded "><a href="sixth-testing.html"><strong aria-hidden="true">6.7.</strong> Testing</a></li><li class="chapter-item expanded "><a href="sixth-send-sync.html"><strong aria-hidden="true">6.8.</strong> Send, Sync, and Compile Tests</a></li><li class="chapter-item expanded "><a href="sixth-cursors-intro.html"><strong aria-hidden="true">6.9.</strong> An Introduction To Cursors</a></li><li class="chapter-item expanded "><a href="sixth-cursors-impl.html"><strong aria-hidden="true">6.10.</strong> Implementing Cursors</a></li><li class="chapter-item expanded "><a href="sixth-cursors-testing.html"><strong aria-hidden="true">6.11.</strong> Testing Cursors</a></li><li class="chapter-item expanded "><a href="sixth-final.html"><strong aria-hidden="true">6.12.</strong> Final Code</a></li></ol></li><li class="chapter-item expanded "><a href="infinity.html"><strong aria-hidden="true">7.</strong> A Bunch of Silly Lists</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="infinity-double-single.html"><strong aria-hidden="true">7.1.</strong> The Double Single</a></li><li class="chapter-item expanded "><a href="infinity-stack-allocated.html"><strong aria-hidden="true">7.2.</strong> The Stack-Allocated Linked List</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                        
+                    </div>
+
+                    <h1 class="menu-title">Learning Rust With Entirely Too Many Linked Lists 日本語版</h1>
+
+                    <div class="right-buttons">
+                        
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        
+                        
+                        <a href="https://github.com/rust-unofficial/too-many-lists" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        
+                    </div>
+                </div>
+
+                
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <!-- # Basic Data Layout -->
+<h1><a class="header" href="#基本的なデータ設計" id="基本的なデータ設計">基本的なデータ設計</a></h1>
+<!-- Alright, so what's a linked list? Well basically, it's a bunch of pieces of data
+on the heap (hush, kernel people!) that point to each other in sequence. Linked
+lists are something procedural programmers shouldn't touch with a 10-foot pole,
+and what functional programmers use for everything. It seems fair, then, that we
+should ask functional programmers for the definition of a linked list. They will
+probably give you something like the following definition: -->
+<p>さて，連結リストとは何でしょうか．基本的にはヒープ (カーネルのひとたち，静かに！) 上にある，
+順番にお互いを指すデータの断片の束のことです．連結リストは手続き型のプログラマにとっては
+長い棒でつんつんするのも避けたい代物ですが，関数型のプログラマはあらゆることに使います．
+それでは関数型プログラマに連結リストの定義を訊いてみましょう．きっとこんな返事が返ってくると思います:</p>
+<pre><code class="language-haskell">List a = Empty | Elem a (List a)
+</code></pre>
+<!-- Which reads approximately as "A List is either Empty or an Element followed by a
+List". This is a recursive definition expressed as a *sum type*, which is a
+fancy name for "a type that can have different values which may be different
+types". Rust calls sum types `enum`s! If you're coming from a C-like language,
+this is exactly the enum you know and love, but in overdrive. So let's
+transcribe this functional definition into Rust! -->
+<p>これは，おおよそ「リストは空か，リストに続く要素のどちらかである」と読めます．これは再帰的な定義を
+タグ付き共用型 (sum type, tagged union type) を使って表したものです．ただし，タグ付き共用型というのは
+「異なる型の値を持つことができる型」というのをおしゃれに言ったものです．Rust ではこれを <code>enum</code> (列挙型)
+と呼んでいます．あなたが C 系の言語をすでにご存じなら，話が早いかもしれません．Rust の <code>enum</code> は，あなたが
+知っている（そして愛している）<code>enum</code> と同じものです．では，先ほどの関数型定義を Rust で書き直してみましょう．</p>
+<!-- For now we'll avoid generics to keep things simple. We'll only support
+storing signed 32-bit integers: -->
+<p>今のところ，シンプルにするためジェネリクスは使わないでおきます．符号付き 32 ビット整数 <code>i32</code> のみを格納することにします．</p>
+<pre><code class="language-rust ignore">// in first.rs
+
+// このモジュールを外部のひとが使えるように pub を付けています
+pub enum List {
+    Empty,
+    Elem(i32, List),
+}
+</code></pre>
+<!-- *phew*, I'm swamped. Let's just go ahead and compile that: -->
+<p>ふー，忙しい忙しい．さっさとコンパイルしちゃいましょう．</p>
+<pre><code class="language-text">&gt; cargo build
+
+error[E0072]: recursive type `first::List` has infinite size
+ --&gt; src/first.rs:4:1
+  |
+4 | pub enum List {
+  | ^^^^^^^^^^^^^ recursive type has infinite size
+5 |     Empty,
+6 |     Elem(i32, List),
+  |               ---- recursive without indirection
+  |
+  = help: insert indirection (e.g., a `Box`, `Rc`, or `&amp;`) at some point to make `first::List` representable
+</code></pre>
+<!-- Well. I don't know about you, but I certainly feel betrayed by the functional
+programming community. -->
+<p>なんだよ，関数型プログラマに騙された！（個人の意見です）</p>
+<!-- If we actually check out the error message (after we get over the whole
+betrayal thing), we can see that rustc is actually telling us exactly
+how to solve this problem: -->
+<p>(裏切り行為を乗り越えた後) 実際にエラーメッセージを確認すると，実は rustc がこの問題を解決する方法を
+正確に教えてくれていることがわかります．</p>
+<!-- > insert indirection (e.g., a `Box`, `Rc`, or `&`) at some point to make `first::List` representable -->
+<blockquote>
+<p><code>first::List</code> を表すために，どこかで <code>Box</code>, <code>Rc</code>, <code>&amp;</code> などの間接参照を用いてください</p>
+</blockquote>
+<!-- Alright, `box`. What's that? Let's google `rust box`... -->
+<p>さてさて，<code>Box</code> ってなんでしょうね？ <code>Rust box</code> でググってみよう...．</p>
+<blockquote>
+<p><a href="https://doc.rust-lang.org/std/boxed/struct.Box.html">std::boxed::Box - Rust</a></p>
+</blockquote>
+<!-- Lesse here... -->
+<p>どれどれ...．</p>
+<!-- > `pub struct Box<T>(_);`
+> A pointer type for heap allocation.
+> See the [module-level documentation](https://doc.rust-lang.org/std/boxed/) for more. -->
+<blockquote>
+<p><code>pub struct Box&lt;T&gt;(_);</code></p>
+<p>ヒープ割り当てのためのポインタ型．詳しくは，<a href="(https://doc.rust-lang.org/std/boxed/)">モジュールごとのドキュメント</a>を参照してください．</p>
+</blockquote>
+<!-- *clicks link* -->
+<p>リンクをクリック．</p>
+<!-- > `Box<T>`, casually referred to as a 'box', provides the simplest form of heap allocation in Rust. Boxes provide ownership for this allocation, and drop their contents when they go out of scope.
+>
+> Examples
+>
+> Creating a box:
+>
+> `let x = Box::new(5);`
+>
+> Creating a recursive data structure:
+> -->
+<blockquote>
+<p><code>Box&lt;T&gt;</code> (通称 <code>box</code>) は，Rust で最も単純なヒープ割り当ての形式です．ボックスは，この割り当ての所有権を持ち，ボックスがスコープを抜けるとその内容が破棄されます．</p>
+<p>例</p>
+<p>ボックスを作る:</p>
+<p><code>let x = Box::new(5);</code></p>
+<p>再帰的なデータ構造を作る:</p>
+</blockquote>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[derive(Debug)]
+enum List&lt;T&gt; {
+    Cons(T, Box&lt;List&lt;T&gt;&gt;),
+    Nil,
+}
+<span class="boring">}
+</span></code></pre></pre>
+<blockquote>
+</blockquote>
+<pre><code class="language-rust ignore">fn main() {
+    let list: List&lt;i32&gt; = List::Cons(1, Box::new(List::Cons(2, Box::new(List::Nil))));
+    println!(&quot;{:?}&quot;, list);
+}
+</code></pre>
+<!-- >
+> This will print `Cons(1, Box(Cons(2, Box(Nil))))`.
+>
+> Recursive structures must be boxed, because if the definition of Cons looked like this:
+>
+> `Cons(T, List<T>),`
+>
+> It wouldn't work. This is because the size of a List depends on how many elements are in the list, and so we don't know how much memory to allocate for a Cons. By introducing a Box, which has a defined size, we know how big Cons needs to be. -->
+<blockquote>
+<p>上のコードは <code>Cons(1, Box(Cons(2, Box(Nil))))</code> と出力します．</p>
+<p>次のような形の再帰的な定義はボックス化する必要があります．</p>
+<p><code>Cons(T, List&lt;T&gt;),</code></p>
+<p>そのままでは上手くいきません．なぜなら，リストのサイズがリスト自身に含まれている要素の数に依存するので，
+<code>Cons</code> に割り当てるべきメモリの量がわからないからです．ボックスはサイズが決まっているので，<code>Cons</code> に
+必要な大きさを事前に知ることができます．</p>
+</blockquote>
+<!-- Wow, uh. That is perhaps the most relevant and helpful documentation I have ever seen. Literally the first thing in the documentation is *exactly what we're trying to write, why it didn't work, and how to fix it*. -->
+<p>ワーオ．こんなに適切で役に立つドキュメントは見たことがありませんね．私たちが書いたものがなぜ上手くいかなかったのか，
+そしてどう修正すれば良いのかがずばり書かれています．</p>
+<!-- Dang, docs rule. -->
+<p>やっぱりドキュメントは最高だな！</p>
+<!-- Ok, let's do that: -->
+<p>よし，やってみよう．</p>
+<pre><code class="language-rust ignore">pub enum List {
+    Empty,
+    Elem(i32, Box&lt;List&gt;),
+}
+</code></pre>
+<pre><code class="language-text">&gt; cargo build
+
+   Finished dev [unoptimized + debuginfo] target(s) in 0.22s
+</code></pre>
+<!-- Hey it built! -->
+<p>やった，ビルドが通ったぞ！</p>
+<!-- ...but this is actually a really foolish definition of a List, for a few reasons. -->
+<p>しかし，これはいくつかの理由から，実に愚かな定義です．</p>
+<!-- Consider a list with two elements: -->
+<p>2つの要素を持つリストを考えてみましょう:</p>
+<pre><code class="language-text">[] = スタック
+() = ヒープ
+
+[Elem A, ptr] -&gt; (Elem B, ptr) -&gt; (Empty, *junk*)
+</code></pre>
+<!-- There are two key issues: -->
+<p>重要な問題が2つあります．</p>
+<!-- * We're allocating a node that just says "I'm not actually a Node"
+* One of our nodes isn't heap-allocated at all. -->
+<ul>
+<li>「ぼくはノードじゃない」というだけのノードを割り当てている．</li>
+<li>ノードの一つに全くヒープが確保されていない．</li>
+</ul>
+<!-- On the surface, these two seem to cancel each-other out. We heap-allocate an
+extra node, but one of our nodes doesn't need to be heap-allocated at all.
+However, consider the following potential layout for our list: -->
+<p>表面的には，この2つは互いに打ち消しあうように見えます．余分なノードをヒープに割り当てる一方で，
+ノードの１つはヒープではなくスタックに割り当てています．しかし次のような設計のリストを考えてみてください．</p>
+<pre><code class="language-text">[ptr] -&gt; (Elem A, ptr) -&gt; (Elem B, *null*)
+</code></pre>
+<!-- In this layout we now unconditionally heap allocate our nodes. The
+key difference is the absence of the *junk* from our first layout. What is
+this junk? To understand that, we'll need to look at how an enum is laid out
+in memory. -->
+<p>この設計では，ノードは常にヒープに割り当てています．最初の設計との重要な違いは，ジャンクがないことです．
+このジャンクとは何でしょうか？それを理解するために，<code>enum</code> がどのようにメモリ上に配置される
+かを見る必要があります．</p>
+<!-- In general, if we have an enum like: -->
+<p>一般的に，次のような <code>enum</code> があったとします:</p>
+<pre><code class="language-rust ignore">enum Foo {
+    D1(T1),
+    D2(T2),
+    ...
+    Dn(Tn),
+}
+</code></pre>
+<!-- A Foo will need to store some integer to indicate which *variant* of the enum it
+represents (`D1`, `D2`, .. `Dn`). This is the *tag* of the enum. It will also
+need enough space to store the *largest* of `T1`, `T2`, .. `Tn` (plus some extra
+space to satisfy alignment requirements). -->
+<p>Foo は，それがどの列挙型のヴァリアント (<code>D1</code>, <code>D2</code>, .. <code>Dn</code>) を表しているかを示す整数を格納する必要があります．
+これを列挙型のタグといいます．また，<code>T1</code>, <code>T2</code>, .. <code>Tn</code> のうち最大のものを格納できるだけのスペースも必要です．
+(さらに，アラインメントの要件を満たすための余分なスペースも必要)．</p>
+<!-- The big takeaway here is that even though `Empty` is a single bit of
+information, it necessarily consumes enough space for a pointer and an element,
+because it has to be ready to become an `Elem` at any time. Therefore the first
+layout heap allocates an extra element that's just full of junk, consuming a
+bit more space than the second layout. -->
+<p>ここで重要なのは，<code>Empty</code> が1ビットの情報であっても，いつでも <code>Elem</code> になれるように準備しなければならないので，
+ポインタと要素のために必要なスペースを必ず消費する，ということです．したがって，最初の設計ではヒープにジャンクでいっぱいの
+余分な要素が割り当てられ，2つめの設計よりも少し多くのスペースを消費してしまうのです．</p>
+<!-- One of our nodes not being allocated at all is also, perhaps surprisingly,
+*worse* than always allocating it. This is because it gives us a *non-uniform*
+node layout. This doesn't have much of an appreciable effect on pushing and
+popping nodes, but it does have an effect on splitting and merging lists. -->
+<p>ノードの一つをヒープに割り当てていないことも，悪いことです．なんでも常にヒープに割り当てる方がましです．これはノードの設計が不均一になるからです．
+ノードのプッシュやポップにはあまり影響しませんが，リストの分割やマージには影響します．</p>
+<!-- Consider splitting a list in both layouts: -->
+<p>リストの分割を行ったときにどうなるか，両方の設計を比較してみましょう:</p>
+<!-- ```text
+layout 1:
+
+[Elem A, ptr] -> (Elem B, ptr) -> (Elem C, ptr) -> (Empty *junk*)
+
+split off C:
+
+[Elem A, ptr] -> (Elem B, ptr) -> (Empty *junk*)
+[Elem C, ptr] -> (Empty *junk*)
+``` -->
+<pre><code class="language-text">設計 1:
+
+[Elem A, ptr] -&gt; (Elem B, ptr) -&gt; (Elem C, ptr) -&gt; (Empty *junk*)
+
+C で分割すると:
+
+[Elem A, ptr] -&gt; (Elem B, ptr) -&gt; (Empty *junk*)
+[Elem C, ptr] -&gt; (Empty *junk*)
+</code></pre>
+<!-- ```text
+layout 2:
+
+[ptr] -> (Elem A, ptr) -> (Elem B, ptr) -> (Elem C, *null*)
+
+split off C:
+
+[ptr] -> (Elem A, ptr) -> (Elem B, *null*)
+[ptr] -> (Elem C, *null*)
+``` -->
+<pre><code class="language-text">設計 2:
+
+[ptr] -&gt; (Elem A, ptr) -&gt; (Elem B, ptr) -&gt; (Elem C, *null*)
+
+C で分割すると:
+
+[ptr] -&gt; (Elem A, ptr) -&gt; (Elem B, *null*)
+[ptr] -&gt; (Elem C, *null*)
+</code></pre>
+<!-- Layout 2's split involves just copying B's pointer to the stack and nulling
+the old value out. Layout 1 ultimately does the same thing, but also has to
+copy C from the heap to the stack. Merging is the same process in reverse. -->
+<p>設計2の分割では，Bのポインタをスタックにコピーし，古いポインタを <code>null</code> にするだけです．
+設計1では同じことをするために，さらにCをヒープからスタックにコピーする必要があります．
+逆になるだけで，マージの場合も同様です．</p>
+<!-- One of the few nice things about a linked list is that you can construct the
+element in the node itself, and then freely shuffle it around lists without
+ever moving it. You just fiddle with pointers and stuff gets "moved". Layout 1
+trashes this property. -->
+<p>ノード自体に要素を構築し，それを動かすことなくリスト間で自由に並び替えることが
+できる点が，連結リストの数少ない長所でした．ポインターをいじるだけで，ものが「移動」するのです．
+設計1ではこの性質がゴミと化しています．</p>
+<!-- Alright, I'm reasonably convinced Layout 1 is bad. How do we rewrite our List?
+Well, we could do something like: -->
+<p>なるほど設計1がよくないことはわかりました．ではどのように書き換えればいいのでしょうか？
+そうですね，次のような方法はどうでしょう:</p>
+<pre><code class="language-rust ignore">pub enum List {
+    Empty,
+    ElemThenEmpty(i32),
+    ElemThenNotEmpty(i32, Box&lt;List&gt;),
+}
+</code></pre>
+<!-- Hopefully this seems like an even worse idea to you. Most notably, this really
+complicates our logic, because there is now a completely invalid state:
+`ElemThenNotEmpty(0, Box(Empty))`. It also *still* suffers from non-uniformly
+allocating our elements. -->
+<p>これが更に悪いアイデアに見えることを祈ります．なぜなら，このリストには <code>ElemThenNotEmpty(0, Box(Empty))</code> という完全に無効な状態が存在するからです．
+また，要素の割り当てが依然として一様でないことも問題です．</p>
+<!-- However it does have *one* interesting property: it totally avoids allocating
+the Empty case, reducing the total number of heap allocations by 1. Unfortunately,
+in doing so it manages to waste *even more space*! This is because the previous
+layout took advantage of the *null pointer optimization*. -->
+<p>しかし，この設計には1つ興味深い特徴があります．Empty ケースの割り当てを完全に回避し，ヒープ割り当ての総数を1つ減らすことができるのです．
+残念なことに，これによって以前の設計で利用できていた <strong>ヌルポインタ最適化</strong> が利用できなくなるので，さらにスペースを浪費する結果になってしまうのですが．</p>
+<!-- We previously saw that every enum has to store a *tag* to specify which variant
+of the enum its bits represent. However, if we have a special kind of enum: -->
+<p>以前，すべての列挙型は，そのビットがどの列挙型のヴァリアントを表しているのかを指定するタグを格納しなければならないとご説明しました．
+しかし，その例外となる特別な種類の列挙型があります:</p>
+<pre><code class="language-rust ignore">enum Foo {
+    A,
+    B(ContainsANonNullPtr),
+}
+</code></pre>
+<!-- the null pointer optimization kicks in, which *eliminates the space needed for
+the tag*. If the variant is A, the whole enum is set to all `0`'s. Otherwise,
+the variant is B. This works because B can never be all `0`'s, since it contains
+a non-zero pointer. Slick! -->
+<p>この場合，ヌルポインタ最適化が行われ，タグにスペースを割くことがなくなります．
+もしヴァリアントが A ならば，<code>enum</code> 全体がすべて <code>0</code> に設定されます．そうでなければヴァリアントは B です．
+これが上手くいくのは, B はゼロでないポインタを含んでいるので，決してゼロにはならないからです．巧妙ですね．</p>
+<!-- Can you think of other enums and types that could do this kind of optimization?
+There's actually a lot! This is why Rust leaves enum layout totally unspecified.
+There are a few more complicated enum layout optimizations that Rust will do for
+us, but the null pointer one is definitely the most important!
+It means `&`, `&mut`, `Box`, `Rc`, `Arc`, `Vec`, and
+several other important types in Rust have no overhead when put in an `Option`!
+(We'll get to most of these in due time.) -->
+<p>他の列挙型や型でもこのような最適化ができるでしょうか？実はこういうケースはたくさんあります！
+Rust が <code>enum</code> の設計を全く指定しないのはこのためです．
+Rust はもっと複雑な <code>enum</code> 設計の最適化も行ってくれますが，最も重要なのは間違いなくヌルポインタ最適化です．
+これは，<code>&amp;</code>, <code>&amp;mut</code>, <code>Box</code>, <code>Rc</code>, <code>Arc</code>, <code>Vec</code>, その他 Rust の重要な型が <code>Option</code> に入れられたとき，
+オーバーヘッドがないことを意味します！ (後で一部を紹介します)</p>
+<!-- So how do we avoid the extra junk, uniformly allocate, *and* get that sweet
+null-pointer optimization? We need to better separate out the idea of having an
+element from allocating another list. To do this, we have to think a little more
+C-like: structs! -->
+<p>では，どのようにすれば余分なジャンクを発生させず，割り当ても均一にし，ヌルポインタ最適化も
+行うということができるでしょうか？要素を持つことと，別のリストを割り当てることとをうまく切り離す
+必要があります．そのためには，もう少しC言語的に考える必要があります．構造体です！</p>
+<!-- While enums let us declare a type that can contain *one* of several values,
+structs let us declare a type that contains *many* values at once. Let's break
+our List into two types: A List, and a Node. -->
+<p>列挙型では複数の値のいずれか <strong>ひとつ</strong> を格納できましたが，構造体では一度に <strong>多くの</strong> 値を格納できます．
+List を「リスト」と「ノード」の２つの型に分割してみましょう．</p>
+<!-- As before, a List is either Empty or has an element followed by another List.
+By representing the "has an element followed by another List" case by an
+entirely separate type, we can hoist the Box to be in a more optimal position: -->
+<p>前述したように，List は <code>Empty</code> (空) であるか，ある要素の後に別の List が続くかのどちらかです．
+この「要素があり，後に別のリストが続く」ケースを全く別の型で表現することで，<code>Box</code> を最適な位置にもっていくことができます．</p>
+<pre><code class="language-rust ignore">struct Node {
+    elem: i32,
+    next: List,
+}
+
+pub enum List {
+    Empty,
+    More(Box&lt;Node&gt;),
+}
+</code></pre>
+<!-- Let's check our priorities: -->
+<p>チェックリストを確認していきましょう:</p>
+<!-- * Tail of a list never allocates extra junk: check!
+* `enum` is in delicious null-pointer-optimized form: check!
+* All elements are uniformly allocated: check! -->
+<ul>
+<li>リストの末尾に余分なジャンクを割り当てない: OK ✅</li>
+<li><code>enum</code> のおいしいヌルポインタ最適化を利用できる: OK ✅</li>
+<li>すべての要素が均一に割り当てられている: OK ✅</li>
+</ul>
+<!-- Alright! We actually just constructed exactly the layout that we used to
+demonstrate that our first layout (as suggested by the official Rust
+documentation) was problematic. -->
+<p>ヨシ！ 実はたったいま構築したのは，Rust の公式ドキュメントで提案されている設計が
+よくないことを示すために最初に使用した設計そのものです．</p>
+<pre><code class="language-text">&gt; cargo build
+
+warning: private type `first::Node` in public interface (error E0446)
+ --&gt; src/first.rs:8:10
+  |
+8 |     More(Box&lt;Node&gt;),
+  |          ^^^^^^^^^
+  |
+  = note: #[warn(private_in_public)] on by default
+  = warning: this was previously accepted by the compiler but
+    is being phased out; it will become a hard error in a future release!
+</code></pre>
+<p>:(</p>
+<!-- Rust is mad at us again. We marked the `List` as public (because we want people
+to be able to use it), but not the `Node`. The problem is that the internals of
+an `enum` are totally public, and we're not allowed to publicly talk about
+private types. We could make all of `Node` totally public, but generally in Rust
+we favour keeping implementation details private. Let's make `List` a struct, so
+that we can hide the implementation details: -->
+<p>また Rust が怒ってますね．<code>List</code> を (みんなが使えるように) パブリックにしたのですが，<code>Node</code> はパブリックにしませんでした．
+<code>List</code> の内部は完全にパブリックなので，その内部でプライベートな型について話すのは許されない，ということのようです．
+<code>Node</code> 全体をパブリックにすることもできますが，Rust では一般に実装の詳細をプライベートにしておくことが推奨されます．
+そこで，<code>List</code> を構造体にして，実装の詳細は隠しておけるようにしましょう．</p>
+<pre><code class="language-rust ignore">pub struct List {
+    head: Link,
+}
+
+enum Link {
+    Empty,
+    More(Box&lt;Node&gt;),
+}
+
+struct Node {
+    elem: i32,
+    next: Link,
+}
+</code></pre>
+<!-- Because `List` is a struct with a single field, its size is the same as that
+field. Yay zero-cost abstractions! -->
+<p>構造体 <code>List</code> はフィールドを１つしか持たないので，そのサイズはフィールドのサイズと同じです．ゼロコスト抽象化です！やったね．</p>
+<pre><code class="language-text">&gt; cargo build
+
+warning: field is never used: `head`
+ --&gt; src/first.rs:2:5
+  |
+2 |     head: Link,
+  |     ^^^^^^^^^^
+  |
+  = note: #[warn(dead_code)] on by default
+
+warning: variant is never constructed: `Empty`
+ --&gt; src/first.rs:6:5
+  |
+6 |     Empty,
+  |     ^^^^^
+
+warning: variant is never constructed: `More`
+ --&gt; src/first.rs:7:5
+  |
+7 |     More(Box&lt;Node&gt;),
+  |     ^^^^^^^^^^^^^^^
+
+warning: field is never used: `elem`
+  --&gt; src/first.rs:11:5
+   |
+11 |     elem: i32,
+   |     ^^^^^^^^^
+
+warning: field is never used: `next`
+  --&gt; src/first.rs:12:5
+   |
+12 |     next: Link,
+   |     ^^^^^^^^^^
+
+</code></pre>
+<!-- Alright, that compiled! Rust is pretty mad, because as far as it can tell,
+everything we've written is totally useless: we never use `head`, and no one who
+uses our library can either since it's private. Transitively, that means Link
+and Node are useless too. So let's solve that! Let's implement some code for our
+List! -->
+<p>よし，コンパイルも通りました．Rust がだいぶ怒ってますが，これは Rust の知る限り
+私たちが書いたものが全く役に立たないからです．
+私たちは <code>head</code> を使用していませんし，私たちのライブラリを使う人もプライベートなので使うことができません．
+ということは，<code>Link</code> と <code>Node</code> も役に立たないということになります．では，それを解決しましょう！
+次は，いま作った私たちの <code>List</code> のためのコードを実装していきます．</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+                            <a rel="prev" href="first.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+
+                        
+                            <a rel="next" href="first-new.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+                    <a rel="prev" href="first.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a rel="next" href="first-new.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+            </nav>
+
+        </div>
+
+        
+
+        
+
+        
+
+        
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        
+
+        
+
+        
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+
+        
+
+    </body>
+</html>
