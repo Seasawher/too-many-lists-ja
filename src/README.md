@@ -260,13 +260,21 @@ latency savings to be had!* -->
 
 しかし，そうですね，負荷が予測できない場合は，連結リストを使用することで最悪の場合の遅延を抑えることができるでしょうね！
 
-## Linked lists waste less space
+<!-- ## Linked lists waste less space -->
 
-Well, this is complicated. A "standard" array resizing strategy is to grow
+## 連結リストはメモリ使用量が少ない
+
+<!-- Well, this is complicated. A "standard" array resizing strategy is to grow
 or shrink so that at most half the array is empty. This is indeed a lot of
 wasted space. Especially in Rust, we don't automatically shrink collections
 (it's a waste if you're just going to fill it back up again), so the wastage
-can approach infinity!
+can approach infinity! -->
+
+あー，これややこしいんですよね．
+「標準的な」配列のリサイズ戦略は，配列の最大半分が空になるように拡大または縮小することです．
+これは実に多くのスペースを無駄にします．
+特に Rust では，（また埋め戻すだけだともったいないから）コレクションを自動的に縮小しませんので，
+いくらでも多くのスペースが無駄になりえます．
 
 But this is a worst-case scenario. In the best-case, an array stack only has
 three pointers of overhead for the entire array. Basically no overhead.
